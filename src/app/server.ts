@@ -1,17 +1,8 @@
 import express from 'express';
+import { routes } from '@app/routes/routes';
 
 const server = express();
 
-server.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-server.get('/ecommerce', (req, res) => {
-  res.send('From E-Commerce');
-});
-
-server.get('/hello', (req, res) => {
-  res.send('From Hello');
-});
+routes.map((route) => server.use(route.path, route.router));
 
 export default server;
