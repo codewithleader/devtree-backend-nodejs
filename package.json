@@ -2,17 +2,26 @@
   "name": "devtree",
   "version": "1.0.0",
   "description": "Primer Proyecto con Express y Typescript. Curso FullStack JuanPa",
-  "main": "index.js",
-  "type": "module",
+  "main": "main.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "start": "npm run build && node dist/main.js",
+    "build": "rimraf dist && tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
+    "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts"
   },
   "author": "CODEWITHLEADER",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.1"
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "joi": "^17.13.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.1",
+    "rimraf": "^6.0.1",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.2"
   }
 }
