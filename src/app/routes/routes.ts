@@ -1,5 +1,6 @@
-import { whatRouter } from '@src/contexts/what/infrastructure/rest-api/router/what.routes';
 import { Router } from 'express';
+import { authRouter } from '@contexts/auth/infrastructure/rest-api/router';
+import { helloRouter } from '@src/contexts/hello/infrastructure/rest-api/router';
 
 interface Route {
   path: string;
@@ -9,8 +10,13 @@ interface Route {
 
 export const routes: Route[] = [
   {
-    path: '/what',
-    name: 'what',
-    router: whatRouter,
+    path: '/hello',
+    name: 'hello',
+    router: helloRouter,
+  },
+  {
+    path: '/auth',
+    name: 'auth',
+    router: authRouter,
   },
 ];
