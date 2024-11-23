@@ -8,6 +8,7 @@ const envSchema = joi
       .string()
       .valid('development', 'production', 'test')
       .required(),
+    MONGODB_URI: joi.string().uri().required(),
   })
   .unknown(true);
 
@@ -19,10 +20,12 @@ if (error) {
 interface IEnvVars {
   PORT: number;
   NODE_ENV: 'development' | 'production' | 'test';
+  MONGODB_URI: string;
 }
 const envVars: IEnvVars = value;
 
 export const envs = {
   PORT: envVars.PORT,
   NODE_ENV: envVars.NODE_ENV,
+  MONGODB_URI: envVars.MONGODB_URI,
 };

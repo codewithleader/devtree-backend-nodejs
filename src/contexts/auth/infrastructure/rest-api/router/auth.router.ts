@@ -7,7 +7,7 @@ authRouter.post('/login', (req, res) => {
 });
 
 authRouter.post('/register', (req, res) => {
-  res.send('register');
+  console.log(req.body);
 });
 
 export { authRouter };
