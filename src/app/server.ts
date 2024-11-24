@@ -1,6 +1,6 @@
 import express from 'express';
 import { routes } from '@app/routes';
-import { connectDB } from '@app/config/db';
+import { envs, MongoDatabase } from '@app/config';
 
 const server = express();
 
@@ -8,7 +8,10 @@ const server = express();
 server.use(express.json());
 
 // Conexion a la base de datos MongoDB
-connectDB();
+MongoDatabase.connect({
+  mongoUrl: envs.MONGO_URL,
+  dbName: envs.MONGO_DBNAME,
+});
 
 // Todas las rutas
 routes.map((route) => server.use(route.path, route.router));

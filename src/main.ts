@@ -1,5 +1,5 @@
 import server from '@app/server';
-import { envs } from '@app/config/envs';
+import { envs } from '@src/app/config';
 
 const PORT = envs.PORT;
 
