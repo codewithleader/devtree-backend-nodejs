@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import colors from 'colors';
 
 interface ConnectionOptions {
   mongoUrl: string;
@@ -14,9 +15,11 @@ export class MongoDatabase {
         dbName,
       });
       const url = `${connection.host}:${connection.port}`;
-      console.log(`MongoDB connected: ${url}`);
+      console.log(colors.green.bold(`MongoDB connected: ${url}`));
     } catch (error) {
-      console.log('MongoDB connection error:', error.message);
+      console.log(
+        colors.bgRed.white.bold(`MongoDB connection error: ${error.message}`)
+      );
       process.exit(1);
     }
   }
