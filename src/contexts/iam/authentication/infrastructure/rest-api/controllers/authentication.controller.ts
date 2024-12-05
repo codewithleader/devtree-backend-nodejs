@@ -1,10 +1,15 @@
-import { Request, Response } from 'express';
-import { CreateUserUseCase } from '@contexts/users/application/use-cases';
+import type { Request, Response } from 'express';
+import {
+  CreateUserUseCase,
+  // FindByEmailUserUseCase,
+} from '@contexts/users/application/use-cases';
 import { HashingService } from '@contexts/iam/authentication/domain';
+import { CustomError } from '@src/contexts/shared/errors/domain';
 
 export class AuthenticationController {
   constructor(
     private readonly createUser: CreateUserUseCase,
+    // private readonly findUserByEmail: FindByEmailUserUseCase,
     private readonly hashingService: HashingService
   ) {}
 
@@ -16,12 +21,10 @@ export class AuthenticationController {
       await this.createUser.execute({ name, email, password: hashedPassword });
       return res.status(201).json({ message: 'OK!' });
     } catch (error) {
-      if (error.errorResponse.code === 11000) {
-        return res.status(400).json({
-          error: `Email ya existe en base de datos: ${email}`,
-        });
+      if (error instanceof CustomError) {
+        return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(400).json({ error });
+      return res.status(500).json({ error: 'Ocurrió un error inesperado' });
     }
   }
 

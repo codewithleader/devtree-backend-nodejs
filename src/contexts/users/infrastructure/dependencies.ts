@@ -1,8 +1,13 @@
-import { CreateUserUseCase } from '../application/use-cases';
-import { UserMongoDbDatasource } from './datasources/aws/mongodb/user-mongodb.datasource';
+import {
+  CreateUserUseCase,
+  FindByEmailUserUseCase,
+} from '@contexts/users/application/use-cases';
+import { UserMongoDbDatasource } from '@contexts/users/infrastructure/datasources/aws/mongodb/user-mongodb.datasource';
 import { UserRepositoryImp } from './repositories';
 
-const userRepository = new UserRepositoryImp(new UserMongoDbDatasource());
+const dataSource = new UserMongoDbDatasource();
+const userRepository = new UserRepositoryImp(dataSource);
 const createUserUseCase = new CreateUserUseCase(userRepository);
+const findUserByEmailUseCase = new FindByEmailUserUseCase(userRepository);
 
-export { createUserUseCase };
+export { createUserUseCase, findUserByEmailUseCase };

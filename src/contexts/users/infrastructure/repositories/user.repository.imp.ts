@@ -16,7 +16,7 @@ export class UserRepositoryImp implements UserRepository {
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
-    throw new Error('Method not implemented.');
+    return await this.datasource.findByEmail(email);
   }
 
   async findAll(): Promise<UserEntity[]> {
