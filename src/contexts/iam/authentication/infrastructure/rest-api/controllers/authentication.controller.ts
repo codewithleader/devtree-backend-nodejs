@@ -1,24 +1,19 @@
 import type { Request, Response } from 'express';
-import {
-  CreateUserUseCase,
-  // FindByEmailUserUseCase,
-} from '@contexts/users/application/use-cases';
-import { HashingService } from '@contexts/iam/authentication/domain';
+import { RegisterUserUseCase } from '@contexts/iam/authentication/application';
 import { CustomError } from '@src/contexts/shared/errors/domain';
 
 export class AuthenticationController {
-  constructor(
-    private readonly createUser: CreateUserUseCase,
-    // private readonly findUserByEmail: FindByEmailUserUseCase,
-    private readonly hashingService: HashingService
-  ) {}
+  constructor(private readonly registerUser: RegisterUserUseCase) {}
 
   async register(req: Request, res: Response) {
     const { name, email, password } = req.body;
 
     try {
-      const hashedPassword = await this.hashingService.hash(password);
-      await this.createUser.execute({ name, email, password: hashedPassword });
+      await this.registerUser.execute({
+        name,
+        email,
+        password,
+      });
       return res.status(201).json({ message: 'OK!' });
     } catch (error) {
       if (error instanceof CustomError) {
@@ -29,8 +24,13 @@ export class AuthenticationController {
   }
 
   async login(req: Request, res: Response) {
-    return res
-      .status(400)
-      .json({ status: 400, message: 'Method not implemented' });
+    try {
+      return res.status(200).json({ message: 'Method not implemented' });
+    } catch (error) {
+      if (error instanceof CustomError) {
+        return res.status(error.statusCode).json({ error: error.message });
+      }
+      return res.status(500).json({ error: 'Ocurrió un error inesperado' });
+    }
   }
 }
