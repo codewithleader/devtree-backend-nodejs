@@ -1,36 +1,36 @@
 import type { Request, Response } from 'express';
 import { RegisterUserUseCase } from '@contexts/iam/authentication/application';
 import { CustomError } from '@src/contexts/shared/errors/domain';
+import { RegisterUserDto } from '@contexts/iam/authentication/domain';
 
 export class AuthenticationController {
   constructor(private readonly registerUser: RegisterUserUseCase) {}
 
-  async register(req: Request, res: Response) {
-    const { name, email, password } = req.body;
-
-    try {
-      await this.registerUser.execute({
-        name,
-        email,
-        password,
-      });
-      return res.status(201).json({ message: 'OK!' });
-    } catch (error) {
-      if (error instanceof CustomError) {
-        return res.status(error.statusCode).json({ error: error.message });
-      }
-      return res.status(500).json({ error: 'Ocurrió un error inesperado' });
+  private handleErrors = (res: Response, error: unknown) => {
+    if (error instanceof CustomError) {
+      res.status(error.statusCode).json({ error: error.message });
+      return;
     }
-  }
 
-  async login(req: Request, res: Response) {
-    try {
-      return res.status(200).json({ message: 'Method not implemented' });
-    } catch (error) {
-      if (error instanceof CustomError) {
-        return res.status(error.statusCode).json({ error: error.message });
-      }
-      return res.status(500).json({ error: 'Ocurrió un error inesperado' });
+    console.log({ error });
+    return res
+      .status(500)
+      .json({ error: 'Internal Server Error - Check logs' });
+  };
+
+  public register = (req: Request, res: Response) => {
+    const [error, registerUserDto] = RegisterUserDto.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error });
     }
-  }
+
+    this.registerUser
+      .execute(registerUserDto)
+      .then(() => res.status(201).json({ message: 'OK!' }))
+      .catch((error) => this.handleErrors(res, error));
+  };
+
+  public login = (req: Request, res: Response) => {
+    return res.status(500).json({ message: 'Method not implemented' });
+  };
 }

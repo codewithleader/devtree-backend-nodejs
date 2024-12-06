@@ -1,22 +1,17 @@
 import { Router } from 'express';
-import { authenticationRouter } from '@contexts/iam/authentication/infrastructure/rest-api/router';
-import { helloRouter } from '@contexts/hello/infrastructure/rest-api/router';
+import { AuthenticationRouter } from '@src/contexts/iam/authentication/infrastructure/rest-api/router';
 
-interface Route {
-  path: string;
-  name: string;
-  router: Router;
+export class AppRoutes {
+  static get routes(): Router {
+    const router = Router();
+
+    //* Import the routes of the different modules
+
+    // API Routes
+    router.use('/api/auth', AuthenticationRouter.routes);
+
+    // Others Routes
+
+    return router;
+  }
 }
-
-export const routes: Route[] = [
-  {
-    path: '/hello',
-    name: 'hello',
-    router: helloRouter,
-  },
-  {
-    path: '/auth',
-    name: 'authentication',
-    router: authenticationRouter,
-  },
-];

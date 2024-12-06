@@ -8,6 +8,7 @@ const envSchema = joi
       .string()
       .valid('development', 'production', 'test')
       .required(),
+    PUBLIC_PATH: joi.string().required(),
     // MongoDB
     MONGO_URL: joi.string().uri().required(),
     MONGO_DBNAME: joi.string().required(),
@@ -24,6 +25,7 @@ if (error) {
 interface IEnvVars {
   PORT: number;
   NODE_ENV: 'development' | 'production' | 'test';
+  PUBLIC_PATH: string;
   // MongoDB
   MONGO_URL: string;
   MONGO_DBNAME: string;
@@ -35,6 +37,7 @@ const envVars: IEnvVars = value;
 export const envs = {
   PORT: envVars.PORT,
   NODE_ENV: envVars.NODE_ENV,
+  PUBLIC_PATH: envVars.PUBLIC_PATH,
   // MongoDB
   MONGO_URL: envVars.MONGO_URL,
   MONGO_DBNAME: envVars.MONGO_DBNAME,
