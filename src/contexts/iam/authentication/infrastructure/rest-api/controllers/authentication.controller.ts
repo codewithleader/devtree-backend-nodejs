@@ -1,12 +1,19 @@
 import type { Request, Response } from 'express';
-import { RegisterUserUseCase } from '@contexts/iam/authentication/application';
+import {
+  RegisterUserDto,
+  LoginUserDto,
+  RegisterUserUseCase,
+  LoginUserUseCase,
+} from '@contexts/iam/authentication/application';
 import { CustomError } from '@src/contexts/shared/errors/domain';
-import { RegisterUserDto } from '@contexts/iam/authentication/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import colors from 'colors';
 
 export class AuthenticationController {
-  constructor(private readonly registerUser: RegisterUserUseCase) {}
+  constructor(
+    private readonly registerUser: RegisterUserUseCase,
+    private readonly loginUser: LoginUserUseCase
+  ) {}
 
   private handleErrors = (res: Response, error: unknown) => {
     if (error instanceof CustomError) {
@@ -23,11 +30,11 @@ export class AuthenticationController {
   };
 
   public register = (req: Request, res: Response) => {
-    const [error, registerUserDto] = RegisterUserDto.validate(req.body);
-    if (error) {
+    const [errors, registerUserDto] = RegisterUserDto.validate(req.body);
+    if (errors) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: ReasonPhrases.BAD_REQUEST,
-        error,
+        error: errors,
       });
     }
 
@@ -40,8 +47,16 @@ export class AuthenticationController {
   };
 
   public login = (req: Request, res: Response) => {
-    return res
-      .status(StatusCodes.NOT_IMPLEMENTED)
-      .json({ message: ReasonPhrases.NOT_IMPLEMENTED });
+    const [errors, loginUserDto] = LoginUserDto.validate(req.body);
+    if (errors) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: ReasonPhrases.BAD_REQUEST,
+        error: errors,
+      });
+    }
+    this.loginUser
+      .execute(loginUserDto)
+      .then((data) => res.status(StatusCodes.OK).json({ user: data }))
+      .catch((error) => this.handleErrors(res, error));
   };
 }

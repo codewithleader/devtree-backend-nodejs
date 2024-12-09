@@ -5,7 +5,10 @@ import {
   HashingBcryptService,
   SlugSlugService,
 } from '@contexts/iam/authentication/infrastructure/services';
-import { RegisterUserUseCase } from '@contexts/iam/authentication/application';
+import {
+  LoginUserUseCase,
+  RegisterUserUseCase,
+} from '@contexts/iam/authentication/application';
 import { AuthenticationController } from '@contexts/iam/authentication/infrastructure/rest-api/controllers';
 
 const hashingService = new HashingBcryptService();
@@ -15,9 +18,11 @@ const registerUserUseCase = new RegisterUserUseCase(
   hashingService,
   slugService
 );
+const loginUserUseCase = new LoginUserUseCase(userRepository, hashingService);
 
 const authenticationController = new AuthenticationController(
-  registerUserUseCase
+  registerUserUseCase,
+  loginUserUseCase
 );
 
 export { authenticationController };

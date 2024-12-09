@@ -1,8 +1,9 @@
-import { UserEntity, UserRepository } from '@contexts/users/domain';
+import { UserRepository } from '@contexts/users/domain';
 import {
   HashingService,
   SlugService,
-} from '@src/contexts/iam/authentication/domain';
+} from '@contexts/iam/authentication/domain';
+import { RegisterUserDto } from '@contexts/iam/authentication/application';
 
 export class RegisterUserUseCase {
   constructor(
@@ -10,12 +11,16 @@ export class RegisterUserUseCase {
     private readonly hashingService: HashingService,
     private readonly slugService: SlugService
   ) {}
-  async execute(data: UserEntity): Promise<void> {
+  async execute(data: RegisterUserDto): Promise<void> {
     // Generate slug
-    data.nickname = await this.slugService.generateSlug(data.nickname);
+    const nicknameSlug = await this.slugService.generateSlug(data.nickname);
     // Hashing password
-    data.password = await this.hashingService.hash(data.password);
+    const hashedPassword = await this.hashingService.hash(data.password);
     // Save new user
-    return await this.userRepository.save(data);
+    return await this.userRepository.save({
+      ...data,
+      nickname: nicknameSlug,
+      password: hashedPassword,
+    });
   }
 }

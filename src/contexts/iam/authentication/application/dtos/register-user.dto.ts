@@ -1,3 +1,5 @@
+import { isValidEmail } from '@src/contexts/shared/utils';
+
 export class RegisterUserDto {
   private constructor(
     public readonly nickname: string,
@@ -33,15 +35,9 @@ export class RegisterUserDto {
     }
 
     // Validar email
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const match = String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
     if (!email || email.trim().length === 0) {
       errors.push('Email is required.');
-    } else if (!!!match) {
+    } else if (!isValidEmail(email)) {
       errors.push('Email is not valid.');
     }
 
