@@ -15,8 +15,8 @@ export class LoginUserUseCase {
       const user = await this.userRepository.findByEmail(data.email);
       if (!user) {
         throw new CustomError(
-          ReasonPhrases.BAD_REQUEST,
-          StatusCodes.BAD_REQUEST
+          `${ReasonPhrases.UNAUTHORIZED}: Invalid email or password`,
+          StatusCodes.UNAUTHORIZED
         );
       }
       const isPasswordValid = await this.hashingService.compare(
@@ -25,8 +25,8 @@ export class LoginUserUseCase {
       );
       if (!isPasswordValid) {
         throw new CustomError(
-          ReasonPhrases.BAD_REQUEST,
-          StatusCodes.BAD_REQUEST
+          `${ReasonPhrases.UNAUTHORIZED}: Invalid email or password`,
+          StatusCodes.UNAUTHORIZED
         );
       }
 

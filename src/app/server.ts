@@ -2,6 +2,7 @@ import path from 'path';
 import express, { type Router } from 'express';
 import compression from 'compression';
 import colors from 'colors';
+import { checkJSONFormatMiddleware } from '@contexts/shared/middlewares';
 
 interface Options {
   port: number;
@@ -32,6 +33,9 @@ export class Server {
 
     //* Public Folder
     this.app.use(express.static(this.publicPath));
+
+    // * Error JSON FORMAT
+    this.app.use(checkJSONFormatMiddleware.bind(checkJSONFormatMiddleware));
 
     //* Routes (API and others)
     this.app.use(this.routes);

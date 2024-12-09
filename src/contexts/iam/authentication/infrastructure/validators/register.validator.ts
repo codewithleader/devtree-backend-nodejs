@@ -1,9 +1,25 @@
 import type { Request, Response, NextFunction } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
 // Definir las reglas de validación
 export const registerValidatorRules = [
+  // Invalid properties
+  (req: Request, res: Response, next: NextFunction) => {
+    const allowedFields = ['nickname', 'name', 'email', 'password'];
+    const bodyKeys = Object.keys(req.body);
+
+    // Detectar propiedades adicionales
+    const extraFields = bodyKeys.filter((key) => !allowedFields.includes(key));
+    if (extraFields.length > 0) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: 'Invalid properties in request body',
+        extraFields,
+      });
+    }
+    next();
+  },
+  // Express Validator
   body('nickname')
     .notEmpty()
     .withMessage('Nickname is required')
@@ -36,15 +52,3 @@ export const registerValidatorRules = [
       'Password must be at least 6 characters long and contain at least one number and one uppercase letter'
     ),
 ];
-
-export function registerValidatorMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ error: errors.array() });
-  }
-  next();
-}

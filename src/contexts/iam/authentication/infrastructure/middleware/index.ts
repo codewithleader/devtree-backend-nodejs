@@ -1,2 +1,1 @@
-export * from './register-validator.middleware';
-export * from './login-validator.middleware';
+export * from './handle-validator-errors.middleware';
