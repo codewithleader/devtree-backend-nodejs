@@ -1,5 +1,6 @@
 export class RegisterUserDto {
   private constructor(
+    public readonly nickname: string,
     public readonly name: string,
     public readonly email: string,
     public readonly password: string
@@ -9,12 +10,19 @@ export class RegisterUserDto {
     [key: string]: any;
   }): [string[]?, RegisterUserDto?] {
     const errors: string[] = [];
-    const { name, email, password, ...rest } = props;
+    const { nickname, name, email, password, ...rest } = props;
 
     // Validar si hay propiedades adicionales
     const invalidKeys = Object.keys(rest);
     if (invalidKeys.length > 0) {
       errors.push(`Unexpected properties: ${invalidKeys.join(', ')}.`);
+    }
+
+    // Validar nickname
+    if (!nickname || nickname.trim().length === 0) {
+      errors.push('nickname is required.');
+    } else if (nickname.trim().length < 2) {
+      errors.push('nickname must be at least 2 characters long.');
     }
 
     // Validar nombre
@@ -54,6 +62,6 @@ export class RegisterUserDto {
       return [errors, undefined];
     }
 
-    return [undefined, new RegisterUserDto(name, email, password)];
+    return [undefined, new RegisterUserDto(nickname, name, email, password)];
   }
 }

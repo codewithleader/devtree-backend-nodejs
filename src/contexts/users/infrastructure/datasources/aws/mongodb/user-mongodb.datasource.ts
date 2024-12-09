@@ -1,7 +1,7 @@
 import { UserDatasource, UserEntity } from '@contexts/users/domain';
 import User from './models';
-import colors from 'colors';
 import { CustomError } from '@src/contexts/shared/errors/domain';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 export class UserMongoDbDatasource implements UserDatasource {
   async save(data: UserEntity): Promise<void> {
@@ -12,11 +12,16 @@ export class UserMongoDbDatasource implements UserDatasource {
       // !Importante: En cada datasource se debe buscar cual es el error de duplicate key para en caso de email duplicado. En MongoDB es error.code: 11000 (Faltaria Postgres, Mysql u otros)
       if (error.code === 11000) {
         throw new CustomError(
-          `Email ya existe en base de datos: ${data.email}`,
-          400
+          `${ReasonPhrases.CONFLICT}: Llave duplicada en base de datos: ${
+            error.message.split('key: ')[1]
+          }`,
+          StatusCodes.CONFLICT
         );
       }
-      throw new CustomError(`Error al guardar usuario: ${error.message}`, 500);
+      throw new CustomError(
+        `${ReasonPhrases.INTERNAL_SERVER_ERROR}: Error al guardar usuario: ${error.message}`,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
@@ -26,7 +31,6 @@ export class UserMongoDbDatasource implements UserDatasource {
 
   async findByEmail(email: string): Promise<UserEntity> {
     const userByEmail = await User.findOne({ email });
-    console.log(colors.cyan(`${userByEmail}`));
     if (!userByEmail) return null;
     return new UserEntity(userByEmail);
   }

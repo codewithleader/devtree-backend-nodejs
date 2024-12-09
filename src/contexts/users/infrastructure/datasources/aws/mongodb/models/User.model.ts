@@ -2,6 +2,14 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
+    // nickname = handle
+    nickname: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,
@@ -11,6 +19,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
       unique: true,
     },
     password: {
@@ -23,6 +32,7 @@ const userSchema = new mongoose.Schema(
 );
 
 interface IUser {
+  nickname: string;
   name: string;
   email: string;
   password: string;
