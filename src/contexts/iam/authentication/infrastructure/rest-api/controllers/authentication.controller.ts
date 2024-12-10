@@ -24,18 +24,20 @@ export class AuthenticationController {
     console.error(colors.bgRed.white(ReasonPhrases.INTERNAL_SERVER_ERROR), {
       error,
     });
-    return res
+    res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    return;
   };
 
   public register = (req: Request, res: Response) => {
     const [errors, registerUserDto] = RegisterUserDto.validate(req.body);
     if (errors) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
+      res.status(StatusCodes.BAD_REQUEST).json({
         message: ReasonPhrases.BAD_REQUEST,
         error: errors,
       });
+      return;
     }
 
     this.registerUser
@@ -49,10 +51,11 @@ export class AuthenticationController {
   public login = (req: Request, res: Response) => {
     const [errors, loginUserDto] = LoginUserDto.validate(req.body);
     if (errors) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
+      res.status(StatusCodes.BAD_REQUEST).json({
         message: ReasonPhrases.BAD_REQUEST,
         error: errors,
       });
+      return;
     }
     this.loginUser
       .execute(loginUserDto)

@@ -1,28 +1,14 @@
-import type { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
-import { StatusCodes } from 'http-status-codes';
+import { validateExtraFields } from '@src/contexts/shared/middlewares';
 
 // Definir las reglas de validación
 export const registerValidatorRules = [
   // Invalid properties
-  (req: Request, res: Response, next: NextFunction) => {
-    const allowedFields = ['nickname', 'name', 'email', 'password'];
-    const bodyKeys = Object.keys(req.body);
-
-    // Detectar propiedades adicionales
-    const extraFields = bodyKeys.filter((key) => !allowedFields.includes(key));
-    if (extraFields.length > 0) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: 'Invalid properties in request body',
-        extraFields,
-      });
-    }
-    next();
-  },
+  validateExtraFields(['nickname', 'name', 'email', 'password']),
   // Express Validator
   body('nickname')
     .notEmpty()
-    .withMessage('Nickname is required')
+    .withMessage('NICKNAME is required')
     .trim()
     .escape()
     .isLength({ min: 4 })
@@ -41,6 +27,9 @@ export const registerValidatorRules = [
     .isEmail()
     .withMessage('EMAIL is not valid'),
   body('password')
+    .notEmpty()
+    .withMessage('PASSWORD is required')
+    .trim()
     .isStrongPassword({
       minLength: 6,
       minLowercase: 1,
@@ -49,6 +38,6 @@ export const registerValidatorRules = [
       minSymbols: 0,
     })
     .withMessage(
-      'Password must be at least 6 characters long and contain at least one number and one uppercase letter'
+      'PASSWORD must be at least 6 characters long and contain at least one number and one uppercase letter'
     ),
 ];

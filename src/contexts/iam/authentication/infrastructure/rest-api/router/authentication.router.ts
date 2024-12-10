@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { authenticationController } from '@contexts/iam/authentication/infrastructure/dependencies';
-import { handleValidatorErrorsMiddleware } from '@contexts/iam/authentication/infrastructure/middleware';
 import {
   loginValidatorRules,
   registerValidatorRules,
 } from '@contexts/iam/authentication/infrastructure/validators';
+import { handleValidatorErrorsMiddleware } from '@shared/middlewares';
 
 export class AuthenticationRouter {
   static get routes(): Router {
@@ -13,15 +13,15 @@ export class AuthenticationRouter {
     router.post(
       '/register',
       registerValidatorRules,
-      handleValidatorErrorsMiddleware.bind(handleValidatorErrorsMiddleware),
-      authenticationController.register.bind(authenticationController)
+      handleValidatorErrorsMiddleware,
+      authenticationController.register
     );
 
     router.post(
       '/login',
       loginValidatorRules,
-      handleValidatorErrorsMiddleware.bind(handleValidatorErrorsMiddleware),
-      authenticationController.login.bind(authenticationController)
+      handleValidatorErrorsMiddleware,
+      authenticationController.login
     );
 
     return router;

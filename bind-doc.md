@@ -1,4 +1,21 @@
-¡Me alegra que la estructura te haya funcionado! 🚀 Ahora vamos a desglosar el tema del método `bind()` y por qué es importante en el contexto de tus rutas y controladores en Node.js con Express.
+# ACTUALIZACION:
+
+Resulta que si hacemos
+
+```typescript
+return res.status...
+```
+
+no cumple la interfaz de `RequestHandler` y por eso habia que agregar .bin(...)
+
+### SOLUCION:
+
+```typescript
+res.status...
+return; // El "return" va justo despues del res.status... y asi cumple con la interface RequestHandler: Promise<void>
+```
+
+Esta solución evita el uso del `.bin(...)`
 
 ---
 

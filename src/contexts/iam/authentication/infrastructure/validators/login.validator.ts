@@ -1,33 +1,22 @@
-import { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
-import { StatusCodes } from 'http-status-codes';
+import { validateExtraFields } from '@shared/middlewares';
 
 // Definir las reglas de validación
 export const loginValidatorRules = [
   // Invalid properties
-  (req: Request, res: Response, next: NextFunction) => {
-    const allowedFields = ['email', 'password'];
-    const bodyKeys = Object.keys(req.body);
-
-    // Detectar propiedades adicionales
-    const extraFields = bodyKeys.filter((key) => !allowedFields.includes(key));
-    if (extraFields.length > 0) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: 'Invalid properties in request body (loginValidatorRules)',
-        extraFields,
-      });
-    }
-    next();
-  },
+  validateExtraFields(['email', 'password']),
   // Express Validator
   body('email')
     .notEmpty()
-    .withMessage('Email is required')
+    .withMessage('EMAIL is required')
     .trim()
     .escape()
     .isEmail()
-    .withMessage('Email is not valid'),
+    .withMessage('EMAIL is not valid'),
   body('password')
+    .notEmpty()
+    .withMessage('PASSWORD is required')
+    .trim()
     .isStrongPassword({
       minLength: 6,
       minLowercase: 1,
