@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
 import { validateExtraFields } from '@shared/middlewares';
+import { handleValidatorErrorsMiddleware } from '@shared/middlewares';
 
 // Definir las reglas de validación
 export const loginValidatorRules = [
@@ -25,4 +26,6 @@ export const loginValidatorRules = [
       minSymbols: 0,
     })
     .withMessage('Wrong password'),
+  // Esta siempre irá de ultimo ya que devuelve los errores en caso de que existan
+  handleValidatorErrorsMiddleware,
 ];

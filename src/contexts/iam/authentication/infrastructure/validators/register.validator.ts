@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
 import { validateExtraFields } from '@src/contexts/shared/middlewares';
+import { handleValidatorErrorsMiddleware } from '@shared/middlewares';
 
 // Definir las reglas de validación
 export const registerValidatorRules = [
@@ -40,4 +41,6 @@ export const registerValidatorRules = [
     .withMessage(
       'PASSWORD must be at least 6 characters long and contain at least one number and one uppercase letter'
     ),
+  // Esta siempre irá de ultimo ya que devuelve los errores en caso de que existan
+  handleValidatorErrorsMiddleware,
 ];

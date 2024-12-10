@@ -4,7 +4,6 @@ import {
   loginValidatorRules,
   registerValidatorRules,
 } from '@contexts/iam/authentication/infrastructure/validators';
-import { handleValidatorErrorsMiddleware } from '@shared/middlewares';
 
 export class AuthenticationRouter {
   static get routes(): Router {
@@ -13,16 +12,10 @@ export class AuthenticationRouter {
     router.post(
       '/register',
       registerValidatorRules,
-      handleValidatorErrorsMiddleware,
       authenticationController.register
     );
 
-    router.post(
-      '/login',
-      loginValidatorRules,
-      handleValidatorErrorsMiddleware,
-      authenticationController.login
-    );
+    router.post('/login', loginValidatorRules, authenticationController.login);
 
     return router;
   }
