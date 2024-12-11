@@ -1,17 +1,13 @@
 import { CorsOptions } from 'cors';
+import { envs } from '@app/config';
 
 export const corsConfig: CorsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      'http://localhost:5173', // TODO: Get from .env
-      // 'https://www.example.com',
-    ];
+    const allowedOrigins = envs.ALLOWED_ORIGINS;
     if (!origin || allowedOrigins.includes(origin)) {
-      console.log('Origin:', origin);
       callback(null, true);
     } else {
-      console.log('nopasó');
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Origin not allowed by CORS'));
     }
   },
 };
