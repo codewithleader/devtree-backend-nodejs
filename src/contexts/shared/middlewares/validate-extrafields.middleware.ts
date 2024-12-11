@@ -11,6 +11,7 @@ export const validateExtraFields = (
     // Detectar propiedades adicionales
     const extraFields = bodyKeys.filter((key) => !allowedFields.includes(key));
     if (extraFields.length > 0) {
+      // Agregar errores a la respuesta pero sin interrumpir las demas validaciones ya que en el ultimo middleware (handleValidatorErrors) se responde con todos los errores si existen.
       res.locals.validationErrors.push({
         type: 'field',
         msg: 'Invalid properties in request body',
@@ -18,13 +19,6 @@ export const validateExtraFields = (
         location: 'body',
       });
     }
-    // if (extraFields.length > 0) {
-    // res.status(StatusCodes.BAD_REQUEST).json({
-    //   message: 'Invalid properties in request body',
-    //   extraFields,
-    // });
-    // return;
-    // }
 
     // Continuar con la cadena de middlewares
     next();

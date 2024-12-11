@@ -1,5 +1,5 @@
 import colors from 'colors';
-import { envs, MongoDatabase } from '@src/app/config';
+import { corsConfig, envs, MongoDatabase } from '@src/app/config';
 import { AppRoutes } from '@src/app/routes';
 import { Server } from '@src/app/server';
 
@@ -17,6 +17,7 @@ async function main() {
 
     // Iniciar el servidor
     const server = new Server({
+      corsConfig: corsConfig,
       port: envs.PORT,
       public_path: envs.PUBLIC_PATH,
       routes: AppRoutes.routes,

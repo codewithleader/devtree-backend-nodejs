@@ -13,7 +13,7 @@ export const handleValidatorErrorsMiddleware: RequestHandler = (
 
   if (!errors.isEmpty() || localErrors.length > 0) {
     res.status(StatusCodes.BAD_REQUEST).json({
-      errors: [...localErrors, ...errors.array()],
+      error: [...localErrors, ...errors.array()],
     });
     return;
   }
