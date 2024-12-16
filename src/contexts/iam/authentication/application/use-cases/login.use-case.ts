@@ -39,7 +39,9 @@ export class LoginUserUseCase {
 
       // El Payload debe ser un objeto plano y no una Entity (UserEntity en este caso)
       // La solución es esparcir las propiedades de la Entidad dentro de los corchetes {...user}
-      const token = this.tokenService.generateToken({ ...user }, '180d');
+      const token = this.tokenService.generateToken({ id: user.id }, '180d');
+      const verifyToken = this.tokenService.verifyToken(token);
+      console.log({ verifyToken });
 
       return { user, token };
     } catch (error) {

@@ -1,4 +1,5 @@
 import jwt, { JsonWebTokenError, JwtPayload } from 'jsonwebtoken';
+import colors from 'colors';
 import { TokenService } from '@contexts/iam/authentication/domain';
 
 export class TokenJwtService implements TokenService {
@@ -15,7 +16,7 @@ export class TokenJwtService implements TokenService {
       if (error instanceof JsonWebTokenError) {
         return null;
       }
-      console.log(error);
+      console.log(colors.red(error));
       return null;
     }
   }
