@@ -7,7 +7,7 @@ interface UserData {
 }
 
 export class UserEntity {
-  public id: string;
+  public id?: string;
   public nickname: string;
   public name: string;
   public email: string;

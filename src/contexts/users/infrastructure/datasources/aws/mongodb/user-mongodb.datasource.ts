@@ -2,11 +2,10 @@ import { UserDatasource, UserEntity } from '@contexts/users/domain';
 import User from './models';
 import { CustomError } from '@src/contexts/shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { RegisterUserDto } from '@src/contexts/iam/authentication/application';
 
 // IMPORTANTE: En cada datasource se debe buscar cual es el error de duplicate key para en caso de email duplicado. En MongoDB es error.code: 11000 (Faltaria Postgres, Mysql u otros)
 export class UserMongoDbDatasource implements UserDatasource {
-  async save(data: RegisterUserDto): Promise<void> {
+  async save(data: UserEntity): Promise<void> {
     const newUser = new User(data);
     try {
       await newUser.save();
