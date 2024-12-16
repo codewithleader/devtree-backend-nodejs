@@ -16,6 +16,7 @@ const envSchema = joi
     MONGO_PASS: joi.string().required(),
     // Allowed Origins (CORS)
     ALLOWED_ORIGINS: joi.array().items(joi.string().uri()).required(), // ALLOWED_ORIGINS="http://localhost:5173,https://www.example.com"
+    JWT_SECRET: joi.string().required(),
   })
   .unknown(true);
 
@@ -40,6 +41,8 @@ interface IEnvVars {
   MONGO_PASS: string;
   // Allowed Origins (CORS)
   ALLOWED_ORIGINS: string[];
+  // Jsonn Web Token
+  JWT_SECRET: string;
 }
 const envVars: IEnvVars = value;
 
@@ -54,4 +57,6 @@ export const envs = {
   MONGO_PASS: envVars.MONGO_PASS,
   // Allowed Origins (CORS)
   ALLOWED_ORIGINS: envVars.ALLOWED_ORIGINS,
+  // Jsonn Web Token
+  JWT_SECRET: envVars.JWT_SECRET,
 };

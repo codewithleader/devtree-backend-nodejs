@@ -59,7 +59,7 @@ export class AuthenticationController {
     }
     this.loginUser
       .execute(loginUserDto)
-      .then((data) => res.status(StatusCodes.OK).json({ user: data }))
+      .then((data) => res.status(StatusCodes.OK).json(data))
       .catch((error) => this.handleErrors(res, error));
   };
 }

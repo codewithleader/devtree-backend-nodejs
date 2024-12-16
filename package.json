@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run build && node dist/main.js",
     "build": "rimraf dist && tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
-    "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts"
+    "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts",
+    "dev:api": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts --api"
   },
   "author": "CODEWITHLEADER",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "express-validator": "^7.2.0",
     "http-status-codes": "^2.3.0",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.4",
     "slug": "^10.0.0"
   },
@@ -28,6 +30,7 @@
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.9.1",
     "@types/slug": "^5.0.9",
     "rimraf": "^6.0.1",
