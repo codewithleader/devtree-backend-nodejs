@@ -2,7 +2,7 @@ import type { Request, RequestHandler } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Instancies
 import { tokenService } from '@src/contexts/iam/authentication/infrastructure/dependencies';
-import { USER_ID_KEY } from '@src/contexts/users/users.constants';
+import { REQUEST_USER_KEY } from '@src/contexts/users/users.constants';
 
 export const tokenValidatorMiddleware: RequestHandler = (req, res, next) => {
   const token = extractBearerTokenFromHeaders(req);
@@ -24,8 +24,8 @@ export const tokenValidatorMiddleware: RequestHandler = (req, res, next) => {
   }
 
   if (typeof payload === 'object' && payload.id) {
-    req[USER_ID_KEY] = payload.id; // REQUEST: Al usar "['propertyName']" typescript no molesta.
-    // res.locals.userId = payload.id; // Opcion 2: RESPONSE: Añadido user al response.locals typescript no molesta tampoco
+    req[REQUEST_USER_KEY] = { id: payload.id }; // REQUEST: Al usar "['propertyName']" typescript no molesta.
+    // res.locals.user.id = payload.id; // Opcion 2: RESPONSE: Añadido user al response.locals typescript no molesta tampoco
   }
 
   next();

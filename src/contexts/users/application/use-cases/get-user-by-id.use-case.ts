@@ -9,7 +9,6 @@ export class GetUserByIdUseCase {
     if (!user) {
       throw new CustomError('User not found', StatusCodes.NOT_FOUND);
     }
-    delete user.password;
     return user;
   }
 }

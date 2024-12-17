@@ -1,1 +1,1 @@
-export const USER_ID_KEY = 'userId';
+export const REQUEST_USER_KEY = 'user';

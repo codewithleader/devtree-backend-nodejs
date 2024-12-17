@@ -4,7 +4,7 @@ import { CustomError } from '@src/contexts/shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import colors from 'colors';
 import { GetUserByIdUseCase } from '@src/contexts/users/application';
-import { USER_ID_KEY } from '@src/contexts/users/users.constants';
+import { REQUEST_USER_KEY } from '@src/contexts/users/users.constants';
 
 export class UserController {
   constructor(private readonly getUserById: GetUserByIdUseCase) {}
@@ -25,8 +25,8 @@ export class UserController {
   };
 
   public getUser = (req: Request, res: Response) => {
-    const id = req[USER_ID_KEY];
-    // const id = res.locals.userId; // Option 2: Not implemented
+    const { id } = req[REQUEST_USER_KEY];
+    // const id = res.locals.user.id; // Option 2: Not implemented
     if (!id) {
       res
         .status(StatusCodes.UNAUTHORIZED)
