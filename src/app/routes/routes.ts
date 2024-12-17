@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AuthenticationRouter } from '@src/contexts/iam/authentication/infrastructure/rest-api/router';
+import { UserRouter } from '@src/contexts/users/infrastructure/rest-api/router';
 
 export class AppRoutes {
   static get routes(): Router {
@@ -9,6 +10,7 @@ export class AppRoutes {
 
     // API Routes
     router.use('/api/auth', AuthenticationRouter.routes);
+    router.use('/api/users', UserRouter.routes);
 
     // Others Routes
 

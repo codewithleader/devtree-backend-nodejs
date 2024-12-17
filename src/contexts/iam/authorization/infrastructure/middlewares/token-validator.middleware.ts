@@ -1,25 +1,38 @@
-// src/modules/authentication/infrastructure/middlewares/AuthMiddleware.ts
+import type { RequestHandler } from 'express';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+// Instancies
 import { tokenService } from '@src/contexts/iam/authentication/infrastructure/dependencies';
-import { Request, Response, NextFunction } from 'express';
 
-export const AuthMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const authHeader = req.headers.authorization;
+export const tokenValidatorMiddleware: RequestHandler = (req, res, next) => {
+  const authHeader = req.headers.authorization; // Bearer token
 
   if (!authHeader) {
-    return res.status(401).json({ message: 'Authorization header is missing' });
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: ReasonPhrases.UNAUTHORIZED });
+    return;
   }
 
   const token = authHeader.split(' ')[1]; // Asumiendo formato "Bearer <token>"
+  if (!token) {
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: ReasonPhrases.UNAUTHORIZED });
+    return;
+  }
+
   const payload = tokenService.verifyToken(token);
 
   if (!payload) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Invalid or expired token' });
+    return;
   }
 
-  // req.user = payload; // TODO: Añadir el usuario a la request
+  if (typeof payload === 'object' && payload.id) {
+    res.locals.userId = payload.id; // RESPONSE: Añadido user al response.locals
+  }
+
   next();
 };

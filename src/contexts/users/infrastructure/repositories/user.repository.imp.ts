@@ -12,7 +12,7 @@ export class UserRepositoryImp implements UserRepository {
   }
 
   async findById(id: string): Promise<UserEntity> {
-    throw new Error('Method not implemented.');
+    return await this.datasource.findById(id);
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -20,10 +20,10 @@ export class UserRepositoryImp implements UserRepository {
   }
 
   async findAll(): Promise<UserEntity[]> {
-    throw new Error('Method not implemented.');
+    return await this.datasource.findAll();
   }
 
   async update(data: UserEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+    return await this.datasource.update(data);
   }
 }
