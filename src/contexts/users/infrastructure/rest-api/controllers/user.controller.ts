@@ -4,7 +4,6 @@ import { CustomError } from '@src/contexts/shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import colors from 'colors';
 import { GetUserByIdUseCase } from '@src/contexts/users/application';
-import { REQUEST_USER_KEY } from '@src/contexts/users/users.constants';
 
 export class UserController {
   constructor(private readonly getUserById: GetUserByIdUseCase) {}
@@ -25,17 +24,21 @@ export class UserController {
   };
 
   public getUser = (req: Request, res: Response) => {
-    const { id } = req[REQUEST_USER_KEY];
-    // const id = res.locals.user.id; // Option 2: Not implemented
+    res.status(StatusCodes.OK).json(req.user);
+    return;
+  };
+
+  public findUser = (req: Request, res: Response) => {
+    const { id } = req.user; // todo: Admin user
     if (!id) {
       res
         .status(StatusCodes.UNAUTHORIZED)
         .json({ error: ReasonPhrases.UNAUTHORIZED });
       return;
     }
-
+    const userIdToFind = req.params.id;
     this.getUserById
-      .execute(id)
+      .execute(userIdToFind)
       .then((data) => res.status(StatusCodes.OK).json(data))
       .catch((error) => this.handleErrors(res, error));
   };

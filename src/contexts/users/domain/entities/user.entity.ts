@@ -1,9 +1,9 @@
-interface UserData {
+export interface IUser {
   id?: string;
   nickname: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
 export class UserEntity {
@@ -11,9 +11,9 @@ export class UserEntity {
   public nickname: string;
   public name: string;
   public email: string;
-  public password: string;
+  public password?: string;
 
-  constructor(data: UserData) {
+  constructor(data: IUser) {
     const { id, nickname, name, email, password } = data;
 
     this.id = id;

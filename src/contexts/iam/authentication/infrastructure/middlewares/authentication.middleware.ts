@@ -2,9 +2,23 @@ import type { Request, RequestHandler } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Instancies
 import { tokenService } from '@src/contexts/iam/authentication/infrastructure/dependencies';
-import { REQUEST_USER_KEY } from '@src/contexts/users/users.constants';
+import { userRepository } from '@src/contexts/users/infrastructure/dependencies';
+import { IUser } from '@src/contexts/users/domain';
 
-export const tokenValidatorMiddleware: RequestHandler = (req, res, next) => {
+/* New property `user` to the Request */
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
+
+export const authenticationMiddleware: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
   const token = extractBearerTokenFromHeaders(req);
 
   if (!token) {
@@ -24,8 +38,14 @@ export const tokenValidatorMiddleware: RequestHandler = (req, res, next) => {
   }
 
   if (typeof payload === 'object' && payload.id) {
-    req[REQUEST_USER_KEY] = { id: payload.id }; // REQUEST: Al usar "['propertyName']" typescript no molesta.
-    // res.locals.user.id = payload.id; // Opcion 2: RESPONSE: Añadido user al response.locals typescript no molesta tampoco
+    const user = await userRepository.findById(payload.id);
+    if (!user) {
+      res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: 'Invalid or expired token' });
+      return;
+    }
+    req.user = user;
   }
 
   next();

@@ -11,11 +11,11 @@ export class UserRepositoryImp implements UserRepository {
     return await this.datasource.save(data);
   }
 
-  async findById(id: string): Promise<UserEntity> {
+  async findById(id: string): Promise<UserEntity | null> {
     return await this.datasource.findById(id);
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     return await this.datasource.findByEmail(email);
   }
 

@@ -1,4 +1,4 @@
-import { tokenValidatorMiddleware } from '@src/contexts/iam/authorization/infrastructure/middlewares';
+import { authenticationMiddleware } from '@src/contexts/iam/authentication/infrastructure/middlewares';
 import { Router } from 'express';
 import { userController } from '../../dependencies';
 
@@ -6,7 +6,7 @@ export class UserRouter {
   static get routes(): Router {
     const router = Router();
 
-    router.get('/me', tokenValidatorMiddleware, userController.getUser);
+    router.get('/me', authenticationMiddleware, userController.getUser);
 
     // router.get('/:id', (req, res) => res.status(200).send('Not implemented'));
 

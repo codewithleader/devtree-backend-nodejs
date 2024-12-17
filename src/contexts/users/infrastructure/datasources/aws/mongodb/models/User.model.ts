@@ -1,3 +1,4 @@
+import { IUser } from '@src/contexts/users/domain';
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
@@ -31,13 +32,6 @@ const userSchema = new mongoose.Schema(
   },
   { collection: 'users' }
 );
-
-interface IUser {
-  nickname: string;
-  name: string;
-  email: string;
-  password: string;
-}
 
 const User = mongoose.model<IUser>('User', userSchema);
 // mongoose.models.User || mongoose.model('User', userSchema);
