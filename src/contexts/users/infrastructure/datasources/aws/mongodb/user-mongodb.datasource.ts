@@ -2,6 +2,7 @@ import { UserDatasource, UserEntity } from '@contexts/users/domain';
 import User from './models';
 import { CustomError } from '@src/contexts/shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { isValidObjectId } from 'mongoose';
 
 // IMPORTANTE: En cada datasource se debe buscar cual es el error de duplicate key para en caso de email duplicado. En MongoDB es error.code: 11000 (Faltaria Postgres, Mysql u otros)
 export class UserMongoDbDatasource implements UserDatasource {
@@ -27,16 +28,18 @@ export class UserMongoDbDatasource implements UserDatasource {
     }
   }
 
-  async findById(id: string): Promise<UserEntity> {
+  async findById(id: string): Promise<UserEntity | null> {
+    // Verificar si es un mongoId valido con la funcion de mongoose
+    if (id && !isValidObjectId(id)) return null;
     const user = await User.findById(id);
     if (!user) return null;
     return new UserEntity(user);
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
-    const userByEmail = await User.findOne({ email });
-    if (!userByEmail) return null;
-    return new UserEntity(userByEmail);
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    const user = await User.findOne({ email });
+    if (!user) return null;
+    return new UserEntity(user);
   }
 
   async findAll(): Promise<UserEntity[]> {

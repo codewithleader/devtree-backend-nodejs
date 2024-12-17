@@ -4,6 +4,7 @@ import { CustomError } from '@src/contexts/shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import colors from 'colors';
 import { GetUserByIdUseCase } from '@src/contexts/users/application';
+import { USER_ID_KEY } from '@src/contexts/users/users.constants';
 
 export class UserController {
   constructor(private readonly getUserById: GetUserByIdUseCase) {}
@@ -24,7 +25,14 @@ export class UserController {
   };
 
   public getUser = (req: Request, res: Response) => {
-    const id = res.locals.userId;
+    const id = req[USER_ID_KEY];
+    // const id = res.locals.userId; // Option 2: Not implemented
+    if (!id) {
+      res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ error: ReasonPhrases.UNAUTHORIZED });
+      return;
+    }
 
     this.getUserById
       .execute(id)
