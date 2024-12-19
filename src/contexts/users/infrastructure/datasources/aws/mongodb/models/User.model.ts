@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema(
       trim: true,
       select: false, // Evita traer el password en una consulta
     },
+    description: {
+      type: String,
+      trim: true,
+      default: '',
+    },
   },
   { collection: 'users' }
 );
