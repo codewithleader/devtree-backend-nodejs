@@ -24,7 +24,7 @@ export const authenticationMiddleware: RequestHandler = async (
   if (!token) {
     res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: ReasonPhrases.UNAUTHORIZED });
+      .json({ error: ReasonPhrases.UNAUTHORIZED });
     return;
   }
 
@@ -33,7 +33,7 @@ export const authenticationMiddleware: RequestHandler = async (
   if (!payload) {
     res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: 'Invalid or expired token' });
+      .json({ error: 'Invalid or expired token' });
     return;
   }
 
@@ -42,7 +42,7 @@ export const authenticationMiddleware: RequestHandler = async (
     if (!user) {
       res
         .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'Invalid or expired token' });
+        .json({ error: 'Invalid or expired token' });
       return;
     }
     req.user = user;
