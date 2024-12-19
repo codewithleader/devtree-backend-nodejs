@@ -1,11 +1,11 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-export const checkJSONFormatMiddleware = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
+export const checkJSONFormatMiddleware: ErrorRequestHandler = (
+  error,
+  req,
+  res,
+  next
 ) => {
   if (
     //
@@ -13,9 +13,10 @@ export const checkJSONFormatMiddleware = (
     error instanceof SyntaxError &&
     'body' in error
   ) {
-    return res
+    res
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: 'Body with invalid JSON format' });
+    return;
   }
   next();
 };

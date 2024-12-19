@@ -1,5 +1,10 @@
 import colors from 'colors';
-import { corsConfig, envs, MongoDatabase } from '@src/app/config';
+import {
+  checkJSONFormatMiddleware,
+  corsConfig,
+  envs,
+  MongoDatabase,
+} from '@src/app/config';
 import { AppRoutes } from '@src/app/routes';
 import { Server } from '@src/app/server';
 
@@ -21,6 +26,7 @@ async function main() {
       port: envs.PORT,
       public_path: envs.PUBLIC_PATH,
       routes: AppRoutes.routes,
+      checkJSONFormatMiddleware: checkJSONFormatMiddleware,
     });
 
     server.start();

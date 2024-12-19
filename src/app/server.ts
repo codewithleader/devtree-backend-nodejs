@@ -1,16 +1,15 @@
-import path from 'path';
-import express, { type Router } from 'express';
-import cors from 'cors';
+import express, { type Router, type ErrorRequestHandler } from 'express';
+import cors, { CorsOptions } from 'cors';
 import compression from 'compression';
 import colors from 'colors';
-import { checkJSONFormatMiddleware } from '@contexts/shared/middlewares';
-import { CorsOptions } from 'cors';
+import path from 'path';
 
 interface Options {
   port: number;
   public_path?: string;
   routes: Router;
   corsConfig: CorsOptions;
+  checkJSONFormatMiddleware: ErrorRequestHandler;
 }
 
 export class Server {
@@ -20,13 +19,21 @@ export class Server {
   private readonly port: number;
   private readonly publicPath: string;
   private readonly routes: Router;
+  private readonly checkJSONFormatMiddleware: ErrorRequestHandler;
 
   constructor(options: Options) {
-    const { corsConfig, port, public_path = 'public', routes } = options;
+    const {
+      corsConfig,
+      port,
+      public_path = 'public',
+      routes,
+      checkJSONFormatMiddleware,
+    } = options;
     this.corsConfig = corsConfig;
     this.port = port;
     this.publicPath = public_path;
     this.routes = routes;
+    this.checkJSONFormatMiddleware = checkJSONFormatMiddleware;
   }
 
   start() {
@@ -42,7 +49,7 @@ export class Server {
     this.app.use(express.static(this.publicPath));
 
     // * Error JSON FORMAT
-    this.app.use(checkJSONFormatMiddleware.bind(checkJSONFormatMiddleware));
+    this.app.use(this.checkJSONFormatMiddleware);
 
     //* Routes (API and others)
     this.app.use(this.routes);
