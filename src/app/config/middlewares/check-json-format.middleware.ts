@@ -1,3 +1,4 @@
+import { ResponseFormat } from '@src/contexts/shared/utils';
 import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
@@ -15,7 +16,7 @@ export const checkJSONFormatMiddleware: ErrorRequestHandler = (
   ) {
     res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ message: 'Body with invalid JSON format' });
+      .json(ResponseFormat.error('Body with invalid JSON format'));
     return;
   }
   next();

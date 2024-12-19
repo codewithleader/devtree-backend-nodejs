@@ -4,6 +4,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { tokenService } from '@src/contexts/iam/authentication/infrastructure/dependencies';
 import { userRepository } from '@src/contexts/users/infrastructure/dependencies';
 import { IUser } from '@src/contexts/users/domain';
+import { ResponseFormat } from '@src/contexts/shared/utils';
 
 /* New property `user` to the Request */
 declare global {
@@ -24,7 +25,7 @@ export const authenticationMiddleware: RequestHandler = async (
   if (!token) {
     res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ error: ReasonPhrases.UNAUTHORIZED });
+      .json(ResponseFormat.error(ReasonPhrases.UNAUTHORIZED));
     return;
   }
 
@@ -33,7 +34,7 @@ export const authenticationMiddleware: RequestHandler = async (
   if (!payload) {
     res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ error: 'Invalid or expired token' });
+      .json(ResponseFormat.error('Invalid or expired token'));
     return;
   }
 
@@ -42,7 +43,7 @@ export const authenticationMiddleware: RequestHandler = async (
     if (!user) {
       res
         .status(StatusCodes.UNAUTHORIZED)
-        .json({ error: 'Invalid or expired token' });
+        .json(ResponseFormat.error('Invalid or expired token'));
       return;
     }
     req.user = user;

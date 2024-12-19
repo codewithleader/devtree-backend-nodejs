@@ -29,7 +29,7 @@ export class UserMongoDbDatasource implements UserDatasource {
   }
 
   async findById(id: string): Promise<UserEntity | null> {
-    // Verificar si es un mongoId valido con la funcion de mongoose
+    // Verifica si es un mongoId valido con la funcion de mongoose
     if (id && !isValidObjectId(id)) return null;
     const user = await User.findById(id);
     if (!user) return null;

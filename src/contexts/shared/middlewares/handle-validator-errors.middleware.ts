@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
-import { StatusCodes } from 'http-status-codes';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { ResponseFormat } from '../utils';
 
 // Middleware para manejar los errores de validación
 export const handleValidatorErrorsMiddleware: RequestHandler = (
@@ -12,9 +13,11 @@ export const handleValidatorErrorsMiddleware: RequestHandler = (
   const localErrors = res.locals.validationErrors || [];
 
   if (!errors.isEmpty() || localErrors.length > 0) {
-    res.status(StatusCodes.BAD_REQUEST).json({
-      error: [...localErrors, ...errors.array()],
-    });
+    res.status(StatusCodes.BAD_REQUEST).json(
+      ResponseFormat.error(ReasonPhrases.BAD_REQUEST, {
+        error: [...localErrors, ...errors.array()],
+      })
+    );
     return;
   }
 
