@@ -164,3 +164,6 @@ build/
 
 # vercel
 .vercel
+
+# Diff
+diff.txt
