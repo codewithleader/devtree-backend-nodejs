@@ -14,9 +14,7 @@ export class LoginUserUseCase {
     private readonly tokenService: TokenService
   ) {}
 
-  async execute(
-    data: LoginUserDto
-  ): Promise<{ user: UserEntity; token: string }> {
+  async execute(data: LoginUserDto): Promise<{ token: string }> {
     try {
       const user = await this.userRepository.findByEmail(data.email);
       if (!user) {
@@ -35,13 +33,12 @@ export class LoginUserUseCase {
           StatusCodes.UNAUTHORIZED
         );
       }
-      delete user.password;
 
       // El Payload debe ser un objeto plano y no una Entity (UserEntity en este caso)
-      // La solución es esparcir las propiedades de la Entidad dentro de los corchetes {...user}
+      // La solución es esparcir las propiedades de la Entidad dentro de los corchetes {...user} (Actualmente no se hace, solo se pasa el id)
       const token = this.tokenService.generateToken({ id: user.id }, '180d');
 
-      return { user, token };
+      return { token };
     } catch (error) {
       if (error instanceof CustomError) {
         throw new CustomError(error.message, error.statusCode);
