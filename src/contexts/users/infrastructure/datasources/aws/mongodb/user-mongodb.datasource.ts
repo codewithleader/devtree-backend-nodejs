@@ -3,10 +3,12 @@ import User from './models';
 import { CustomError } from '@src/contexts/shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { isValidObjectId } from 'mongoose';
+import { RegisterUserDto } from '@src/contexts/iam/authentication/application';
+import { UpdateUserProfileDto } from '@src/contexts/users/application';
 
 // IMPORTANTE: En cada datasource se debe buscar cual es el error de duplicate key para en caso de email duplicado. En MongoDB es error.code: 11000 (Faltaria Postgres, Mysql u otros)
 export class UserMongoDbDatasource implements UserDatasource {
-  async save(data: UserEntity): Promise<void> {
+  async save(data: RegisterUserDto): Promise<void> {
     const newUser = new User(data);
     try {
       await newUser.save();
@@ -48,8 +50,38 @@ export class UserMongoDbDatasource implements UserDatasource {
     return users.map((user) => new UserEntity(user));
   }
 
-  // Todo: Transactions
-  async update(data: UserEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+  async updateUserProfile(data: UpdateUserProfileDto): Promise<void> {
+    const { id, ...rest } = data;
+    if (!isValidObjectId(id)) {
+      throw new CustomError(
+        `${ReasonPhrases.BAD_REQUEST}: Invalid user id`,
+        StatusCodes.BAD_REQUEST
+      );
+    }
+    try {
+      const user = await User.findByIdAndUpdate(id, rest, { new: true });
+      if (!user) {
+        throw new CustomError(
+          `${ReasonPhrases.NOT_FOUND}: User with id: ${id} not found`,
+          StatusCodes.NOT_FOUND
+        );
+      }
+      return;
+    } catch (error: any) {
+      if (error.code === 11000) {
+        const key = Object.keys(error.keyValue)[0];
+        const value = Object.values(error.keyValue)[0];
+        throw new CustomError(
+          `${
+            ReasonPhrases.CONFLICT
+          }: User with ${key.toUpperCase()}: ${value} is already registered in the database`,
+          StatusCodes.CONFLICT
+        );
+      }
+      throw new CustomError(
+        `${ReasonPhrases.INTERNAL_SERVER_ERROR}: Error al actualizar el perfil del usuario: ${error.message}`,
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 }

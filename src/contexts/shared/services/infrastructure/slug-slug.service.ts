@@ -1,4 +1,4 @@
-import { SlugService } from '@contexts/iam/authentication/domain';
+import { SlugService } from '@contexts/shared/services/domain';
 
 export class SlugSlugService implements SlugService {
   async generateSlug(title: string, replacement: string = ''): Promise<string> {

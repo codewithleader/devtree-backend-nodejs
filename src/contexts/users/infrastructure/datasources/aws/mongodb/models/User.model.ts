@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       select: false, // Evita traer el password en una consulta
     },
-    description: {
+    bio: {
       type: String,
       trim: true,
       default: '',

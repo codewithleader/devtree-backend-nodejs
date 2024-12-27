@@ -1,9 +1,10 @@
-import { UserEntity } from '../entities/user.entity';
+import { UpdateUserProfileDto } from '@src/contexts/users/application';
+import { UserEntity } from '@src/contexts/users/domain';
 
 export abstract class UserDatasource {
   abstract save(data: UserEntity): Promise<void>;
   abstract findById(id: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity>;
   abstract findAll(): Promise<UserEntity[]>;
-  abstract update(data: UserEntity): Promise<void>;
+  abstract updateUserProfile(data: UpdateUserProfileDto): Promise<void>;
 }

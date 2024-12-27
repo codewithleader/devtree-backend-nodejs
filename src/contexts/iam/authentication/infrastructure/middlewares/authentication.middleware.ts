@@ -1,10 +1,10 @@
 import type { Request, RequestHandler } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Instancies
-import { tokenService } from '@src/contexts/iam/authentication/infrastructure/dependencies';
-import { userRepository } from '@src/contexts/users/infrastructure/dependencies';
 import { IUser } from '@src/contexts/users/domain';
 import { ResponseFormat } from '@src/contexts/shared/utils';
+import { AuthDependencyFactory } from '@contexts/iam/authentication/infrastructure/dependencies';
+import { UserDependencyFactory } from '@contexts/users/infrastructure/dependencies';
 
 /* New property `user` to the Request */
 declare global {
@@ -20,6 +20,9 @@ export const authenticationMiddleware: RequestHandler = async (
   res,
   next
 ) => {
+  const tokenService = AuthDependencyFactory.getTokenService();
+  const userRepository = UserDependencyFactory.getUserRepository();
+
   const token = extractBearerTokenFromHeaders(req);
 
   if (!token) {

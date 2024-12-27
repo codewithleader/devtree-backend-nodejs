@@ -1,21 +1,35 @@
 import { envs } from '@src/app/config';
 // Instances
-import { userRepository } from '@contexts/users/infrastructure/dependencies';
+import { UserDependencyFactory } from '@contexts/users/infrastructure/dependencies';
 // Classes
 import {
   HashingBcryptService,
   TokenJwtService,
-  SlugSlugService,
 } from '@contexts/iam/authentication/infrastructure/services';
 import {
   LoginUserUseCase,
   RegisterUserUseCase,
 } from '@contexts/iam/authentication/application';
 import { AuthenticationController } from '@contexts/iam/authentication/infrastructure/rest-api/controllers';
+import { SharedDependencyFactory } from '@src/contexts/shared/dependencies';
+
+class AuthDependencyFactory {
+  static tokenService: TokenJwtService;
+  static secretKey: string = envs.JWT_SECRET;
+
+  static getTokenService(): TokenJwtService {
+    if (!this.tokenService) {
+      this.tokenService = new TokenJwtService(this.secretKey);
+    }
+    return this.tokenService;
+  }
+}
 
 const hashingService = new HashingBcryptService();
-const tokenService = new TokenJwtService(envs.JWT_SECRET);
-const slugService = new SlugSlugService();
+const tokenService = AuthDependencyFactory.getTokenService();
+const slugService = SharedDependencyFactory.getSlugService();
+const userRepository = UserDependencyFactory.getUserRepository();
+
 const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   hashingService,
@@ -26,10 +40,9 @@ const loginUserUseCase = new LoginUserUseCase(
   hashingService,
   tokenService
 );
-
 const authenticationController = new AuthenticationController(
   registerUserUseCase,
   loginUserUseCase
 );
 
-export { authenticationController, tokenService };
+export { authenticationController, AuthDependencyFactory };
