@@ -2,7 +2,7 @@ import { body, param } from 'express-validator';
 import {
   handleValidatorErrorsMiddleware,
   validateExtraFields,
-} from '@contexts/shared/middlewares';
+} from '@shared/middlewares';
 
 export const updateUserProfileValidatorRules = [
   // Invalid properties

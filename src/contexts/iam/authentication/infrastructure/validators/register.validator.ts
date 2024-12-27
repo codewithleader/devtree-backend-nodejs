@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { validateExtraFields } from '@src/contexts/shared/middlewares';
+import { validateExtraFields } from '@shared/middlewares';
 import { handleValidatorErrorsMiddleware } from '@shared/middlewares';
 
 // Definir las reglas de validación

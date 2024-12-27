@@ -1,8 +1,9 @@
-import { CustomError } from '@src/contexts/shared/errors/domain';
-import { UserRepository } from '@src/contexts/users/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { UpdateUserProfileDto } from '@src/contexts/users/application';
-import { SlugService } from '@src/contexts/shared/services/domain';
+//
+import { CustomError } from '@shared/errors/domain';
+import { SlugService } from '@shared/services/domain';
+import { UserRepository } from '@contexts/users/domain';
+import { UpdateUserProfileDto } from '@contexts/users/application';
 
 export class UpdateUserProfileUseCase {
   constructor(

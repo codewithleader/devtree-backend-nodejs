@@ -5,10 +5,10 @@ import {
   RegisterUserUseCase,
   LoginUserUseCase,
 } from '@contexts/iam/authentication/application';
-import { CustomError } from '@src/contexts/shared/errors/domain';
+import { CustomError } from '@shared/errors/domain';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import colors from 'colors';
-import { ResponseFormat } from '@src/contexts/shared/utils';
+import { ResponseFormat } from '@shared/utils';
 
 export class AuthenticationController {
   constructor(

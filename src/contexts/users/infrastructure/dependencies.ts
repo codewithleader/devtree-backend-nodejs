@@ -2,7 +2,7 @@ import { UserMongoDbDatasource } from '@contexts/users/infrastructure/datasource
 import { UserRepositoryImp } from '@contexts/users/infrastructure/repositories';
 import { UserController } from '@contexts/users/infrastructure/rest-api/controllers';
 import { UpdateUserProfileUseCase } from '@contexts/users/application';
-import { SharedDependencyFactory } from '@src/contexts/shared/dependencies';
+import { SharedDependencyFactory } from '@shared/dependencies';
 
 class UserDependencyFactory {
   static userRepository: UserRepositoryImp;

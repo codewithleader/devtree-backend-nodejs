@@ -2,11 +2,13 @@ import type { Request, Response } from 'express';
 import colors from 'colors';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
-import { CustomError } from '@src/contexts/shared/errors/domain';
-import { ResponseFormat } from '@src/contexts/shared/utils';
-import { IUser } from '@src/contexts/users/domain';
-import { UpdateUserProfileUseCase } from '@src/contexts/users/application';
-import { UpdateUserProfileDto } from '../../../application/dtos/update-user-profile.dto';
+import { CustomError } from '@shared/errors/domain';
+import { ResponseFormat } from '@shared/utils';
+import { IUser } from '@contexts/users/domain';
+import {
+  UpdateUserProfileDto,
+  UpdateUserProfileUseCase,
+} from '@contexts/users/application';
 
 export class UserController {
   constructor(private readonly updateUserProfile: UpdateUserProfileUseCase) {}
@@ -62,7 +64,12 @@ export class UserController {
       .then(() =>
         res
           .status(StatusCodes.OK)
-          .json(ResponseFormat.success<null>(null, ReasonPhrases.OK))
+          .json(
+            ResponseFormat.success<null>(
+              null,
+              'User profile updated successfully'
+            )
+          )
       )
       .catch((error) => this.handleErrors(res, error));
   };

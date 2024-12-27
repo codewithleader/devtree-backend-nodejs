@@ -2,7 +2,7 @@ import type { Request, RequestHandler } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Instancies
 import { IUser } from '@src/contexts/users/domain';
-import { ResponseFormat } from '@src/contexts/shared/utils';
+import { ResponseFormat } from '@shared/utils';
 import { AuthDependencyFactory } from '@contexts/iam/authentication/infrastructure/dependencies';
 import { UserDependencyFactory } from '@contexts/users/infrastructure/dependencies';
 

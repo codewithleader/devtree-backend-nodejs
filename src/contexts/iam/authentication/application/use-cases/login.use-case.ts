@@ -1,10 +1,10 @@
-import { UserEntity, UserRepository } from '@contexts/users/domain';
+import { UserRepository } from '@contexts/users/domain';
 import {
   HashingService,
   TokenService,
 } from '@contexts/iam/authentication/domain';
 import { LoginUserDto } from '@contexts/iam/authentication/application';
-import { CustomError } from '@src/contexts/shared/errors/domain';
+import { CustomError } from '@shared/errors/domain';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 export class LoginUserUseCase {

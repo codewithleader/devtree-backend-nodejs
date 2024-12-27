@@ -11,7 +11,7 @@ import {
   RegisterUserUseCase,
 } from '@contexts/iam/authentication/application';
 import { AuthenticationController } from '@contexts/iam/authentication/infrastructure/rest-api/controllers';
-import { SharedDependencyFactory } from '@src/contexts/shared/dependencies';
+import { SharedDependencyFactory } from '@shared/dependencies';
 
 class AuthDependencyFactory {
   static tokenService: TokenJwtService;

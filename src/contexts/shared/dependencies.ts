@@ -1,4 +1,4 @@
-import { SlugSlugService } from '@contexts/shared/services/infrastructure';
+import { SlugSlugService } from '@shared/services/infrastructure';
 
 export class SharedDependencyFactory {
   static slugService: SlugSlugService;

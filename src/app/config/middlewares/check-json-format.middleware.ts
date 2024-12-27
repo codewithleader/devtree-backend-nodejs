@@ -1,4 +1,4 @@
-import { ResponseFormat } from '@src/contexts/shared/utils';
+import { ResponseFormat } from '@shared/utils';
 import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 

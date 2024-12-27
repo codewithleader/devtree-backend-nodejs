@@ -1,9 +1,7 @@
 import { UserRepository } from '@contexts/users/domain';
-import {
-  HashingService,
-  SlugService,
-} from '@contexts/iam/authentication/domain';
+import { HashingService } from '@contexts/iam/authentication/domain';
 import { RegisterUserDto } from '@contexts/iam/authentication/application';
+import { SlugService } from '@shared/services/domain';
 
 export class RegisterUserUseCase {
   constructor(

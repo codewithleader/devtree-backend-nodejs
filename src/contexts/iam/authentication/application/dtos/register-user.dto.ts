@@ -1,4 +1,4 @@
-import { isValidEmail } from '@src/contexts/shared/utils';
+import { isValidEmail } from '@shared/utils';
 
 export class RegisterUserDto {
   private constructor(
