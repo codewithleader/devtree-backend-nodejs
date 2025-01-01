@@ -16,7 +16,11 @@ export class UserRouter {
       userController.updateProfile
     );
 
-    // router.get('/:id', (req, res) => res.status(200).send('Not implemented'));
+    router.post(
+      '/:id/image',
+      authenticationMiddleware,
+      userController.uploadImage
+    );
 
     return router;
   }

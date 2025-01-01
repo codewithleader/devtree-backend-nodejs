@@ -73,4 +73,19 @@ export class UserController {
       )
       .catch((error) => this.handleErrors(res, error));
   };
+
+  public uploadImage = (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!id && id !== req.user.id) {
+      res.status(StatusCodes.UNAUTHORIZED).json(
+        ResponseFormat.error(ReasonPhrases.UNAUTHORIZED, {
+          error: 'Unauthorized',
+        })
+      );
+      return;
+    }
+    res.status(StatusCodes.OK).json(ResponseFormat.success<null>(null));
+    // this.uploadUserProfileImage
+    //   .execute({ id, image: req.file })
+  };
 }

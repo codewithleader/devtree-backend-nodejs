@@ -17,6 +17,10 @@ const envSchema = joi
     // Allowed Origins (CORS)
     ALLOWED_ORIGINS: joi.array().items(joi.string().uri()).required(), // ALLOWED_ORIGINS="http://localhost:5173,https://www.example.com"
     JWT_SECRET: joi.string().required(),
+    // Cloudinary
+    CLOUDINARY_CLOUD_NAME: joi.string().required(),
+    CLOUDINARY_API_KEY: joi.string().required(),
+    CLOUDINARY_API_SECRET: joi.string().required(),
   })
   .unknown(true);
 
@@ -43,6 +47,10 @@ interface IEnvVars {
   ALLOWED_ORIGINS: string[];
   // Jsonn Web Token
   JWT_SECRET: string;
+  // Cloudinary
+  CLOUDINARY_CLOUD_NAME: string;
+  CLOUDINARY_API_KEY: string;
+  CLOUDINARY_API_SECRET: string;
 }
 const envVars: IEnvVars = value;
 
@@ -59,4 +67,8 @@ export const envs = {
   ALLOWED_ORIGINS: envVars.ALLOWED_ORIGINS,
   // Jsonn Web Token
   JWT_SECRET: envVars.JWT_SECRET,
+  // Cloudinary
+  CLOUDINARY_CLOUD_NAME: envVars.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: envVars.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: envVars.CLOUDINARY_API_SECRET,
 };
