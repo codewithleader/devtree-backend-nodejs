@@ -34,6 +34,14 @@ const userSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    imageUrl: {
+      type: String,
+      default: '',
+    },
+    imagePublicId: {
+      type: String,
+      default: '',
+    },
   },
   { collection: 'users' }
 );

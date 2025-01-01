@@ -3,6 +3,7 @@ import { UserRepositoryImp } from '@contexts/users/infrastructure/repositories';
 import { UserController } from '@contexts/users/infrastructure/rest-api/controllers';
 import { UpdateUserProfileUseCase } from '@contexts/users/application';
 import { SharedDependencyFactory } from '@shared/dependencies';
+import { MediaDependencyFactory } from '@src/contexts/media/infrastructure/dependencies';
 
 class UserDependencyFactory {
   static userRepository: UserRepositoryImp;
@@ -23,6 +24,13 @@ const updateUserProfile = new UpdateUserProfileUseCase(
   slugService
 );
 
-const userController = new UserController(updateUserProfile);
+const uploadImage = MediaDependencyFactory.getUploadImageUseCase();
+const deleteImage = MediaDependencyFactory.getDeleteImageUseCase();
+
+const userController = new UserController(
+  updateUserProfile,
+  uploadImage,
+  deleteImage
+);
 
 export { UserDependencyFactory, userController };

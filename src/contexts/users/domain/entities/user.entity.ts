@@ -5,6 +5,8 @@ export interface IUser {
   email: string;
   password?: string;
   bio?: string;
+  imageUrl?: string;
+  imagePublicId?: string;
 }
 
 export class UserEntity {
@@ -14,9 +16,20 @@ export class UserEntity {
   public email: string;
   public password?: string;
   public bio?: string;
+  public imageUrl?: string;
+  public imagePublicId?: string;
 
   constructor(data: IUser) {
-    const { id, nickname, name, email, password, bio } = data;
+    const {
+      id,
+      nickname,
+      name,
+      email,
+      password,
+      bio,
+      imageUrl,
+      imagePublicId,
+    } = data;
 
     this.id = id;
     this.nickname = nickname;
@@ -24,5 +37,7 @@ export class UserEntity {
     this.email = email;
     this.password = password;
     this.bio = bio;
+    this.imageUrl = imageUrl;
+    this.imagePublicId = imagePublicId;
   }
 }

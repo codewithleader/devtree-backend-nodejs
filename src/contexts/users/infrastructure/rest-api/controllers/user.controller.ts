@@ -9,9 +9,17 @@ import {
   UpdateUserProfileDto,
   UpdateUserProfileUseCase,
 } from '@contexts/users/application';
+import {
+  DeleteImageUseCase,
+  UploadImageUseCase,
+} from '@contexts/media/application';
 
 export class UserController {
-  constructor(private readonly updateUserProfile: UpdateUserProfileUseCase) {}
+  constructor(
+    private readonly updateUserProfile: UpdateUserProfileUseCase,
+    private readonly uploadImageUseCase: UploadImageUseCase,
+    private readonly deleteImageUseCase: DeleteImageUseCase
+  ) {}
 
   private handleErrors = (res: Response, error: unknown) => {
     if (error instanceof CustomError) {
@@ -35,7 +43,7 @@ export class UserController {
     return;
   };
 
-  public updateProfile = (req: Request, res: Response) => {
+  public updateProfile = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id && id !== req.user.id) {
       res.status(StatusCodes.UNAUTHORIZED).json(
@@ -59,8 +67,24 @@ export class UserController {
       return;
     }
 
+    let imageUrl: string = '';
+    let imagePublicId: string = '';
+    if (req.files && req.files.file) {
+      // Delete previous image
+      if (req.user.imageUrl && req.user.imagePublicId) {
+        this.deleteImageUseCase.execute(req.user.imagePublicId);
+      }
+
+      // Upload image
+      const filePath = req.files.file[0].filepath;
+      const uploadedImage = await this.uploadImageUseCase.execute(filePath);
+
+      imageUrl = uploadedImage.url;
+      imagePublicId = uploadedImage.publicId;
+    }
+
     this.updateUserProfile
-      .execute(updateUserProfileDto)
+      .execute({ ...updateUserProfileDto, imageUrl, imagePublicId })
       .then(() =>
         res
           .status(StatusCodes.OK)
@@ -84,8 +108,23 @@ export class UserController {
       );
       return;
     }
-    res.status(StatusCodes.OK).json(ResponseFormat.success<null>(null));
-    // this.uploadUserProfileImage
-    //   .execute({ id, image: req.file })
+    if (!req.files || !req.files.file) {
+      res.status(StatusCodes.BAD_REQUEST).json(
+        ResponseFormat.error(ReasonPhrases.BAD_REQUEST, {
+          error: 'No file uploaded',
+        })
+      );
+    }
+    const filePath = req.files.file[0].filepath;
+    this.uploadImageUseCase
+      .execute(filePath)
+      .then((uploadedImage) =>
+        res
+          .status(StatusCodes.OK)
+          .json(
+            ResponseFormat.success<{ uploadedImage: any }>({ uploadedImage })
+          )
+      )
+      .catch((error) => this.handleErrors(res, error));
   };
 }

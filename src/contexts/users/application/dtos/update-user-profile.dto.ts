@@ -2,7 +2,9 @@ export class UpdateUserProfileDto {
   private constructor(
     public readonly id: string,
     public readonly nickname: string,
-    public readonly bio: string
+    public readonly bio: string,
+    public readonly imageUrl?: string,
+    public readonly imagePublicId?: string
   ) {}
 
   static validate(
