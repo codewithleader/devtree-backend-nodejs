@@ -6,7 +6,7 @@ import {
 
 export const updateUserProfileValidatorRules = [
   // Invalid properties
-  validateExtraFields(['bio', 'nickname']),
+  validateExtraFields(['bio', 'nickname'], ['file']),
   // Express Validator
   body('bio')
     .notEmpty()

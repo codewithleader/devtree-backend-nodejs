@@ -67,8 +67,8 @@ export class UserController {
       return;
     }
 
-    let imageUrl: string = '';
-    let imagePublicId: string = '';
+    let imageUrl: string = req.user.imageUrl;
+    let imagePublicId: string = req.user.imagePublicId;
     if (req.files && req.files.file) {
       // Delete previous image
       if (req.user.imageUrl && req.user.imagePublicId) {
@@ -76,6 +76,7 @@ export class UserController {
       }
 
       // Upload image
+      // const filePath = req.files.file[0].filepath;
       const filePath = req.files.file[0].filepath;
       const uploadedImage = await this.uploadImageUseCase.execute(filePath);
 
