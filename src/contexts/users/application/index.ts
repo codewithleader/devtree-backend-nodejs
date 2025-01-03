@@ -1,2 +1,2 @@
-export * from './use-cases/update-user-profile.use-case';
-export * from './dtos/update-user-profile.dto';
+export * from './use-cases/update-my-user-profile.use-case';
+export * from './dtos/update-my-user-profile.dto';

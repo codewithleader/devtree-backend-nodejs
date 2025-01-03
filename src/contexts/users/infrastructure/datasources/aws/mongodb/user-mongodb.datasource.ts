@@ -2,7 +2,7 @@ import { isValidObjectId } from 'mongoose';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
 import { CustomError } from '@shared/errors/domain';
-import { UpdateUserProfileDto } from '@contexts/users/application';
+import { UpdateMyUserProfileDto } from '@contexts/users/application';
 import { UserDatasource, UserEntity } from '@contexts/users/domain';
 import { RegisterUserDto } from '@contexts/iam/authentication/application';
 import User from './models';
@@ -51,7 +51,7 @@ export class UserMongoDbDatasource implements UserDatasource {
     return users.map((user) => new UserEntity(user));
   }
 
-  async updateUserProfile(data: UpdateUserProfileDto): Promise<UserEntity> {
+  async updateUserProfile(data: UpdateMyUserProfileDto): Promise<UserEntity> {
     const { id, ...rest } = data;
     if (!isValidObjectId(id)) {
       throw new CustomError(

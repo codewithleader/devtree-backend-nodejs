@@ -17,7 +17,7 @@ import type { RequestHandler } from 'express';
  * const allowedFileFields = ['profilePicture'];
  *
  * app.post(
- *   'users/:id/profile',
+ *   'users/me/profile',
  *   validateExtraFields(allowedBodyFields, allowedFileFields),
  *   handleValidatorErrorsMiddleware, // The final middleware should handle the response if there are validation errors
  *   (req, res) => {

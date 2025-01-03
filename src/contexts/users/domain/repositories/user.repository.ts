@@ -1,4 +1,4 @@
-import { UpdateUserProfileDto } from '@src/contexts/users/application';
+import { UpdateMyUserProfileDto } from '@src/contexts/users/application';
 import { UserEntity } from '@src/contexts/users/domain';
 
 export abstract class UserRepository {
@@ -6,5 +6,5 @@ export abstract class UserRepository {
   abstract findById(id: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity | null>;
   abstract findAll(): Promise<UserEntity[]>;
-  abstract updateUserProfile(data: UpdateUserProfileDto): Promise<UserEntity>;
+  abstract updateUserProfile(data: UpdateMyUserProfileDto): Promise<UserEntity>;
 }

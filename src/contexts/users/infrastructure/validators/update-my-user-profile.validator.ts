@@ -4,7 +4,7 @@ import {
   validateExtraFields,
 } from '@shared/middlewares';
 
-export const updateUserProfileValidatorRules = [
+export const updateMyUserProfileValidatorRules = [
   // Invalid properties
   validateExtraFields(['bio', 'nickname'], ['file']),
   // Express Validator
@@ -22,11 +22,6 @@ export const updateUserProfileValidatorRules = [
     .escape()
     .isLength({ min: 2 })
     .withMessage('NICKNAME must be at least 2 characters long'),
-  param('id')
-    // .notEmpty()
-    // .withMessage('ID is required')
-    .isLength({ min: 24, max: 24 })
-    .withMessage('ID is not valid'),
   // Esta siempre irá de ultimo ya que devuelve los errores en caso de que existan
   handleValidatorErrorsMiddleware,
 ];

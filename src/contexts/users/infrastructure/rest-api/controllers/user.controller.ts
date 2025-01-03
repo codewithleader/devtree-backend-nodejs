@@ -6,8 +6,8 @@ import { CustomError } from '@shared/errors/domain';
 import { ResponseFormat } from '@shared/utils';
 import { IUser, UserEntity } from '@contexts/users/domain';
 import {
-  UpdateUserProfileDto,
-  UpdateUserProfileUseCase,
+  UpdateMyUserProfileDto,
+  UpdateMyUserProfileUseCase,
 } from '@contexts/users/application';
 import {
   DeleteImageUseCase,
@@ -16,7 +16,7 @@ import {
 
 export class UserController {
   constructor(
-    private readonly updateUserProfile: UpdateUserProfileUseCase,
+    private readonly updateMyUserProfile: UpdateMyUserProfileUseCase,
     private readonly uploadImageUseCase: UploadImageUseCase,
     private readonly deleteImageUseCase: DeleteImageUseCase
   ) {}
@@ -36,24 +36,16 @@ export class UserController {
     return;
   };
 
-  public getUser = (req: Request, res: Response) => {
+  public getMyUser = (req: Request, res: Response) => {
     res
       .status(StatusCodes.OK)
       .json(ResponseFormat.success<{ user: IUser }>({ user: req.user }));
     return;
   };
 
-  public updateProfile = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id && id !== req.user.id) {
-      res.status(StatusCodes.UNAUTHORIZED).json(
-        ResponseFormat.error(ReasonPhrases.UNAUTHORIZED, {
-          error: 'Unauthorized',
-        })
-      );
-      return;
-    }
-    const [errors, updateUserProfileDto] = UpdateUserProfileDto.validate({
+  public updateMyProfile = async (req: Request, res: Response) => {
+    const id = req.user.id;
+    const [errors, updateMyUserProfileDto] = UpdateMyUserProfileDto.validate({
       ...req.body,
       id,
     });
@@ -71,8 +63,8 @@ export class UserController {
     let imagePublicId: string = req.user.imagePublicId;
     if (req.files && req.files.file) {
       // Delete previous image
-      if (req.user.imageUrl && req.user.imagePublicId) {
-        this.deleteImageUseCase.execute(req.user.imagePublicId);
+      if (imageUrl && imagePublicId) {
+        this.deleteImageUseCase.execute(imagePublicId);
       }
 
       // Upload image
@@ -83,8 +75,8 @@ export class UserController {
       imagePublicId = uploadedImage.publicId;
     }
 
-    this.updateUserProfile
-      .execute({ ...updateUserProfileDto, imageUrl, imagePublicId })
+    this.updateMyUserProfile
+      .execute({ ...updateMyUserProfileDto, imageUrl, imagePublicId })
       .then((data) =>
         res
           .status(StatusCodes.OK)

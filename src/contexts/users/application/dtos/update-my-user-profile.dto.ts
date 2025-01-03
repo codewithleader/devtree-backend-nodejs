@@ -1,4 +1,4 @@
-export class UpdateUserProfileDto {
+export class UpdateMyUserProfileDto {
   private constructor(
     public readonly id: string,
     public readonly nickname: string,
@@ -9,9 +9,9 @@ export class UpdateUserProfileDto {
 
   static validate(
     props: Record<string, any>
-  ): [string[]?, UpdateUserProfileDto?] {
+  ): [string[]?, UpdateMyUserProfileDto?] {
     const errors: string[] = [];
-    const { id, nickname, bio, ...rest } = props;
+    const { id, nickname, bio, imageUrl, imagePublicId, ...rest } = props;
 
     // Validate if there are additional properties
     const invalidKeys = Object.keys(rest);
@@ -44,6 +44,6 @@ export class UpdateUserProfileDto {
       return [errors, undefined];
     }
 
-    return [undefined, new UpdateUserProfileDto(id, nickname, bio)];
+    return [undefined, new UpdateMyUserProfileDto(id, nickname, bio)];
   }
 }

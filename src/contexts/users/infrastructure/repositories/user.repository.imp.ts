@@ -3,7 +3,7 @@ import {
   UserEntity,
   UserRepository,
 } from '@contexts/users/domain';
-import { UpdateUserProfileDto } from '@contexts/users/application';
+import { UpdateMyUserProfileDto } from '@contexts/users/application';
 
 export class UserRepositoryImp implements UserRepository {
   constructor(private readonly datasource: UserDatasource) {}
@@ -24,7 +24,7 @@ export class UserRepositoryImp implements UserRepository {
     return await this.datasource.findAll();
   }
 
-  async updateUserProfile(data: UpdateUserProfileDto): Promise<UserEntity> {
+  async updateUserProfile(data: UpdateMyUserProfileDto): Promise<UserEntity> {
     return await this.datasource.updateUserProfile(data);
   }
 }

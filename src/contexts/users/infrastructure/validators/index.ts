@@ -1,1 +1,1 @@
-export * from './update-user-profile.validator';
+export * from './update-my-user-profile.validator';

@@ -1,7 +1,7 @@
 import { UserMongoDbDatasource } from '@contexts/users/infrastructure/datasources/aws/mongodb/user-mongodb.datasource';
 import { UserRepositoryImp } from '@contexts/users/infrastructure/repositories';
 import { UserController } from '@contexts/users/infrastructure/rest-api/controllers';
-import { UpdateUserProfileUseCase } from '@contexts/users/application';
+import { UpdateMyUserProfileUseCase } from '@contexts/users/application';
 import { SharedDependencyFactory } from '@shared/dependencies';
 import { MediaDependencyFactory } from '@src/contexts/media/infrastructure/dependencies';
 
@@ -19,7 +19,7 @@ class UserDependencyFactory {
 
 const userRepository = UserDependencyFactory.getUserRepository();
 const slugService = SharedDependencyFactory.getSlugService();
-const updateUserProfile = new UpdateUserProfileUseCase(
+const updateMyUserProfile = new UpdateMyUserProfileUseCase(
   userRepository,
   slugService
 );
@@ -28,7 +28,7 @@ const uploadImage = MediaDependencyFactory.getUploadImageUseCase();
 const deleteImage = MediaDependencyFactory.getDeleteImageUseCase();
 
 const userController = new UserController(
-  updateUserProfile,
+  updateMyUserProfile,
   uploadImage,
   deleteImage
 );
