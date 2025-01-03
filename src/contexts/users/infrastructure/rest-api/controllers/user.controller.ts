@@ -76,7 +76,6 @@ export class UserController {
       }
 
       // Upload image
-      // const filePath = req.files.file[0].filepath;
       const filePath = req.files.file[0].filepath;
       const uploadedImage = await this.uploadImageUseCase.execute(filePath);
 
@@ -94,36 +93,6 @@ export class UserController {
               null,
               'User profile updated successfully'
             )
-          )
-      )
-      .catch((error) => this.handleErrors(res, error));
-  };
-
-  public uploadImage = (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id && id !== req.user.id) {
-      res.status(StatusCodes.UNAUTHORIZED).json(
-        ResponseFormat.error(ReasonPhrases.UNAUTHORIZED, {
-          error: 'Unauthorized',
-        })
-      );
-      return;
-    }
-    if (!req.files || !req.files.file) {
-      res.status(StatusCodes.BAD_REQUEST).json(
-        ResponseFormat.error(ReasonPhrases.BAD_REQUEST, {
-          error: 'No file uploaded',
-        })
-      );
-    }
-    const filePath = req.files.file[0].filepath;
-    this.uploadImageUseCase
-      .execute(filePath)
-      .then((uploadedImage) =>
-        res
-          .status(StatusCodes.OK)
-          .json(
-            ResponseFormat.success<{ uploadedImage: any }>({ uploadedImage })
           )
       )
       .catch((error) => this.handleErrors(res, error));

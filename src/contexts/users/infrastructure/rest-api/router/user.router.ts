@@ -10,7 +10,6 @@ export class UserRouter {
 
     router.get('/me', authenticationMiddleware, userController.getUser);
 
-    // TODO: En la actualización del perfil se debe agregar la subida de imagen de una vez y quitar la ruta '/:id/image'
     router.patch(
       '/:id/profile',
       authenticationMiddleware,
@@ -18,14 +17,6 @@ export class UserRouter {
       updateUserProfileValidatorRules,
       userController.updateProfile
     );
-
-    // router.post(
-    //   '/:id/image',
-    //   // todo: add image upload validator middleware
-    //   authenticationMiddleware,
-    //   mediaFilesFormidableMiddleware,
-    //   userController.uploadImage
-    // );
 
     return router;
   }
