@@ -24,7 +24,7 @@ export class UserRepositoryImp implements UserRepository {
     return await this.datasource.findAll();
   }
 
-  async updateUserProfile(data: UpdateUserProfileDto): Promise<void> {
+  async updateUserProfile(data: UpdateUserProfileDto): Promise<UserEntity> {
     return await this.datasource.updateUserProfile(data);
   }
 }

@@ -4,7 +4,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
 import { CustomError } from '@shared/errors/domain';
 import { ResponseFormat } from '@shared/utils';
-import { IUser } from '@contexts/users/domain';
+import { IUser, UserEntity } from '@contexts/users/domain';
 import {
   UpdateUserProfileDto,
   UpdateUserProfileUseCase,
@@ -85,12 +85,12 @@ export class UserController {
 
     this.updateUserProfile
       .execute({ ...updateUserProfileDto, imageUrl, imagePublicId })
-      .then(() =>
+      .then((data) =>
         res
           .status(StatusCodes.OK)
           .json(
-            ResponseFormat.success<null>(
-              null,
+            ResponseFormat.success<{ user: UserEntity }>(
+              { user: data },
               'User profile updated successfully'
             )
           )

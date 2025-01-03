@@ -6,5 +6,5 @@ export abstract class UserDatasource {
   abstract findById(id: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity>;
   abstract findAll(): Promise<UserEntity[]>;
-  abstract updateUserProfile(data: UpdateUserProfileDto): Promise<void>;
+  abstract updateUserProfile(data: UpdateUserProfileDto): Promise<UserEntity>;
 }

@@ -51,7 +51,7 @@ export class UserMongoDbDatasource implements UserDatasource {
     return users.map((user) => new UserEntity(user));
   }
 
-  async updateUserProfile(data: UpdateUserProfileDto): Promise<void> {
+  async updateUserProfile(data: UpdateUserProfileDto): Promise<UserEntity> {
     const { id, ...rest } = data;
     if (!isValidObjectId(id)) {
       throw new CustomError(
@@ -67,7 +67,7 @@ export class UserMongoDbDatasource implements UserDatasource {
           StatusCodes.NOT_FOUND
         );
       }
-      return;
+      return new UserEntity(user);
     } catch (error: any) {
       if (error.code === 11000) {
         const key = Object.keys(error.keyValue)[0];

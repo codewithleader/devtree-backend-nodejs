@@ -2,7 +2,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
 import { CustomError } from '@shared/errors/domain';
 import { SlugService } from '@shared/services/domain';
-import { UserRepository } from '@contexts/users/domain';
+import { UserEntity, UserRepository } from '@contexts/users/domain';
 import { UpdateUserProfileDto } from '@contexts/users/application';
 
 export class UpdateUserProfileUseCase {
@@ -11,10 +11,10 @@ export class UpdateUserProfileUseCase {
     private readonly slugService: SlugService
   ) {}
 
-  async execute(data: UpdateUserProfileDto): Promise<void> {
+  async execute(data: UpdateUserProfileDto): Promise<UserEntity> {
     try {
       const nicknameSlug = await this.slugService.generateSlug(data.nickname);
-      await this.userRepository.updateUserProfile({
+      return await this.userRepository.updateUserProfile({
         ...data,
         nickname: nicknameSlug,
       });
