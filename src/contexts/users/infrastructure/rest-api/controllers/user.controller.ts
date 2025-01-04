@@ -4,7 +4,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
 import { CustomError } from '@shared/errors/domain';
 import { ResponseFormat } from '@shared/utils';
-import { IUser, UserEntity } from '@contexts/users/domain';
+import { UserEntity } from '@contexts/users/domain';
 import {
   UpdateMyUserProfileDto,
   UpdateMyUserProfileUseCase,
@@ -13,6 +13,7 @@ import {
   DeleteImageUseCase,
   UploadImageUseCase,
 } from '@contexts/media/application';
+import { IUser } from '@contexts/users/infrastructure/datasources/aws/mongodb/models';
 
 export class UserController {
   constructor(
@@ -45,6 +46,11 @@ export class UserController {
 
   public updateMyProfile = async (req: Request, res: Response) => {
     const id = req.user.id;
+    const name = req.user.name;
+    const email = req.user.email;
+    let imageUrl: string = req.user.imageUrl;
+    let imagePublicId: string = req.user.imagePublicId;
+
     const [errors, updateMyUserProfileDto] = UpdateMyUserProfileDto.validate({
       ...req.body,
       id,
@@ -59,8 +65,6 @@ export class UserController {
       return;
     }
 
-    let imageUrl: string = req.user.imageUrl;
-    let imagePublicId: string = req.user.imagePublicId;
     if (req.files && req.files.file) {
       // Delete previous image
       if (imageUrl && imagePublicId) {
@@ -75,8 +79,16 @@ export class UserController {
       imagePublicId = uploadedImage.publicId;
     }
 
+    const userEntiry = new UserEntity({
+      ...updateMyUserProfileDto,
+      name,
+      email,
+      imageUrl,
+      imagePublicId,
+    });
+
     this.updateMyUserProfile
-      .execute({ ...updateMyUserProfileDto, imageUrl, imagePublicId })
+      .execute(userEntiry)
       .then((data) =>
         res
           .status(StatusCodes.OK)

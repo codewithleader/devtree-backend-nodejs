@@ -1,5 +1,17 @@
-import { IUser } from '@src/contexts/users/domain';
 import mongoose from 'mongoose';
+
+export interface IUser extends mongoose.Document {
+  id: string; // Aquí si se tiene ya el id (no es opcional)
+  nickname: string;
+  name: string;
+  email: string;
+  // Los opcionales van al final
+  password?: string;
+  bio?: string;
+  imageUrl?: string;
+  imagePublicId?: string;
+  links?: string;
+}
 
 const userSchema = new mongoose.Schema(
   {
@@ -46,7 +58,7 @@ const userSchema = new mongoose.Schema(
   { collection: 'users' }
 );
 
-const User = mongoose.model<IUser>('User', userSchema);
+export const User = mongoose.model<IUser>('User', userSchema);
 // mongoose.models.User || mongoose.model('User', userSchema);
 
 // userSchema.method('toJSON', function () {
@@ -54,5 +66,3 @@ const User = mongoose.model<IUser>('User', userSchema);
 //   object.id = _id;
 //   return object;
 // });
-
-export default User;

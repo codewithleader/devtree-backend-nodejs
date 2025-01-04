@@ -2,10 +2,9 @@ import { isValidObjectId } from 'mongoose';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
 import { CustomError } from '@shared/errors/domain';
-import { UpdateMyUserProfileDto } from '@contexts/users/application';
 import { UserDatasource, UserEntity } from '@contexts/users/domain';
 import { RegisterUserDto } from '@contexts/iam/authentication/application';
-import User from './models';
+import { User } from './models';
 
 // IMPORTANTE: En cada datasource se debe buscar cual es el error de duplicate key para en caso de email duplicado. En MongoDB es error.code: 11000 (Faltaria Postgres, Mysql u otros)
 export class UserMongoDbDatasource implements UserDatasource {
@@ -51,7 +50,7 @@ export class UserMongoDbDatasource implements UserDatasource {
     return users.map((user) => new UserEntity(user));
   }
 
-  async updateUserProfile(data: UpdateMyUserProfileDto): Promise<UserEntity> {
+  async updateUserProfile(data: UserEntity): Promise<UserEntity> {
     const { id, ...rest } = data;
     if (!isValidObjectId(id)) {
       throw new CustomError(

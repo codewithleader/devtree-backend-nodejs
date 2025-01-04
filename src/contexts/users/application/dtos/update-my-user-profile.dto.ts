@@ -4,14 +4,16 @@ export class UpdateMyUserProfileDto {
     public readonly nickname: string,
     public readonly bio: string,
     public readonly imageUrl?: string,
-    public readonly imagePublicId?: string
+    public readonly imagePublicId?: string,
+    public readonly links?: string
   ) {}
 
   static validate(
     props: Record<string, any>
   ): [string[]?, UpdateMyUserProfileDto?] {
     const errors: string[] = [];
-    const { id, nickname, bio, imageUrl, imagePublicId, ...rest } = props;
+    const { id, nickname, bio, imageUrl, imagePublicId, links, ...rest } =
+      props;
 
     // Validate if there are additional properties
     const invalidKeys = Object.keys(rest);

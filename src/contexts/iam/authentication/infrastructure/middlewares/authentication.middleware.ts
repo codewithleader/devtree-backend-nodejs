@@ -1,10 +1,10 @@
 import type { Request, RequestHandler } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Instancies
-import { IUser } from '@src/contexts/users/domain';
-import { ResponseFormat } from '@shared/utils';
 import { AuthDependencyFactory } from '@contexts/iam/authentication/infrastructure/dependencies';
 import { UserDependencyFactory } from '@contexts/users/infrastructure/dependencies';
+import { IUser } from '@contexts/users/infrastructure/datasources/aws/mongodb/models';
+import { ResponseFormat } from '@shared/utils';
 
 /* New property `user` to the Request */
 declare global {
@@ -49,7 +49,7 @@ export const authenticationMiddleware: RequestHandler = async (
         .json(ResponseFormat.error('Invalid or expired token'));
       return;
     }
-    req.user = user;
+    req.user = user as IUser;
   }
 
   next();

@@ -1,4 +1,4 @@
-import { UserMongoDbDatasource } from '@contexts/users/infrastructure/datasources/aws/mongodb/user-mongodb.datasource';
+import { UserMongoDbDatasource } from '@contexts/users/infrastructure/datasources';
 import { UserRepositoryImp } from '@contexts/users/infrastructure/repositories';
 import { UserController } from '@contexts/users/infrastructure/rest-api/controllers';
 import { UpdateMyUserProfileUseCase } from '@contexts/users/application';
