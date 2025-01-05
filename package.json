@@ -7,7 +7,8 @@
     "start": "npm run build && node dist/main.js",
     "build": "rimraf dist && tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
     "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts",
-    "dev:api": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts --api"
+    "dev:api": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts --api",
+    "lint": "eslint ."
   },
   "author": "CODEWITHLEADER",
   "license": "MIT",
@@ -28,6 +29,7 @@
     "slug": "^10.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",
@@ -36,10 +38,13 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.3",
     "@types/slug": "^5.0.9",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
     "rimraf": "^6.0.1",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0"
   }
 }

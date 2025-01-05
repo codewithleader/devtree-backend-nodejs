@@ -1,17 +1,9 @@
 import { RequestHandler } from 'express';
-import formidable, { Files } from 'formidable';
+import formidable from 'formidable';
 import { StatusCodes } from 'http-status-codes';
-import { ResponseFormat } from '@contexts/shared/utils';
 import colors from 'colors';
-
-/* New property `files` to the Request */
-declare global {
-  namespace Express {
-    interface Request {
-      files?: Files;
-    }
-  }
-}
+//
+import { ResponseFormat } from '@shared/utils';
 
 export const mediaFilesFormidableMiddleware: RequestHandler = (
   req,
