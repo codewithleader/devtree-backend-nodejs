@@ -1,9 +1,9 @@
 import { UserRepository } from '@contexts/users/domain';
 import {
+  DataToLogin,
   HashingService,
   TokenService,
 } from '@contexts/iam/authentication/domain';
-import { LoginUserDto } from '@contexts/iam/authentication/application';
 import { CustomError } from '@shared/errors/domain';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
@@ -14,7 +14,7 @@ export class LoginUserUseCase {
     private readonly tokenService: TokenService
   ) {}
 
-  async execute(data: LoginUserDto): Promise<{ token: string }> {
+  async execute(data: DataToLogin): Promise<{ token: string }> {
     try {
       const user = await this.userRepository.findByEmail(data.email);
       if (!user) {

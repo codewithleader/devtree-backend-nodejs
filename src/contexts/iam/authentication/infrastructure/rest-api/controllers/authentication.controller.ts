@@ -1,13 +1,12 @@
 import type { Request, Response } from 'express';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import colors from 'colors';
+//
 import {
-  RegisterUserDto,
-  LoginUserDto,
   RegisterUserUseCase,
   LoginUserUseCase,
 } from '@contexts/iam/authentication/application';
 import { CustomError } from '@shared/errors/domain';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import colors from 'colors';
 import { ResponseFormat } from '@shared/utils';
 
 export class AuthenticationController {
@@ -32,18 +31,8 @@ export class AuthenticationController {
   };
 
   public register = (req: Request, res: Response) => {
-    const [errors, registerUserDto] = RegisterUserDto.validate(req.body);
-    if (errors) {
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          ResponseFormat.error(ReasonPhrases.BAD_REQUEST, { error: errors })
-        );
-      return;
-    }
-
     this.registerUser
-      .execute(registerUserDto)
+      .execute(req.body)
       .then(() =>
         res
           .status(StatusCodes.CREATED)
@@ -53,19 +42,12 @@ export class AuthenticationController {
   };
 
   public login = (req: Request, res: Response) => {
-    const [errors, loginUserDto] = LoginUserDto.validate(req.body);
-    if (errors) {
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          ResponseFormat.error(ReasonPhrases.BAD_REQUEST, { error: errors })
-        );
-      return;
-    }
     this.loginUser
-      .execute(loginUserDto)
+      .execute(req.body)
       .then((data) =>
-        res.status(StatusCodes.OK).json(ResponseFormat.success(data))
+        res
+          .status(StatusCodes.OK)
+          .json(ResponseFormat.success<{ token: string }>(data))
       )
       .catch((error) => this.handleErrors(res, error));
   };

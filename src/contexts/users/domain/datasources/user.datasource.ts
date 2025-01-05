@@ -1,9 +1,15 @@
-import { UserEntity } from '@src/contexts/users/domain';
+import { DataToRegister } from '@src/contexts/iam/authentication/domain';
+import {
+  DataToUpdateUserProfile,
+  UserEntity,
+} from '@src/contexts/users/domain';
 
 export abstract class UserDatasource {
-  abstract save(data: UserEntity): Promise<void>;
+  abstract create(data: DataToRegister): Promise<void>;
   abstract findById(id: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity>;
   abstract findAll(): Promise<UserEntity[]>;
-  abstract updateUserProfile(user: UserEntity): Promise<UserEntity>;
+  abstract updateUserProfile(
+    data: DataToUpdateUserProfile
+  ): Promise<UserEntity>;
 }

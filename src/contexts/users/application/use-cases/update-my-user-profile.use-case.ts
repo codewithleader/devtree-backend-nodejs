@@ -2,7 +2,11 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 //
 import { CustomError } from '@shared/errors/domain';
 import { SlugService } from '@shared/services/domain';
-import { UserEntity, UserRepository } from '@contexts/users/domain';
+import {
+  DataToUpdateUserProfile,
+  UserEntity,
+  UserRepository,
+} from '@contexts/users/domain';
 
 export class UpdateMyUserProfileUseCase {
   constructor(
@@ -10,12 +14,12 @@ export class UpdateMyUserProfileUseCase {
     private readonly slugService: SlugService
   ) {}
 
-  async execute(user: UserEntity): Promise<UserEntity> {
+  async execute(data: DataToUpdateUserProfile): Promise<UserEntity> {
     try {
-      const nicknameSlug = await this.slugService.generateSlug(user.nickname);
+      const nicknameSlug = await this.slugService.generateSlug(data.nickname);
 
       return await this.userRepository.updateUserProfile({
-        ...user,
+        ...data,
         nickname: nicknameSlug,
       });
     } catch (error) {

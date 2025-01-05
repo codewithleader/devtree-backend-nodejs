@@ -1,14 +1,16 @@
 import {
+  DataToUpdateUserProfile,
   UserDatasource,
   UserEntity,
   UserRepository,
 } from '@contexts/users/domain';
+import { DataToRegister } from '@contexts/iam/authentication/domain';
 
 export class UserRepositoryImp implements UserRepository {
   constructor(private readonly datasource: UserDatasource) {}
 
-  async save(data: UserEntity): Promise<void> {
-    return await this.datasource.save(data);
+  async create(data: DataToRegister): Promise<void> {
+    return await this.datasource.create(data);
   }
 
   async findById(id: string): Promise<UserEntity | null> {
@@ -23,7 +25,7 @@ export class UserRepositoryImp implements UserRepository {
     return await this.datasource.findAll();
   }
 
-  async updateUserProfile(data: UserEntity): Promise<UserEntity> {
+  async updateUserProfile(data: DataToUpdateUserProfile): Promise<UserEntity> {
     return await this.datasource.updateUserProfile(data);
   }
 }

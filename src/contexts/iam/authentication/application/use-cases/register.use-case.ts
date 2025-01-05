@@ -1,6 +1,8 @@
 import { UserRepository } from '@contexts/users/domain';
-import { HashingService } from '@contexts/iam/authentication/domain';
-import { RegisterUserDto } from '@contexts/iam/authentication/application';
+import {
+  DataToRegister,
+  HashingService,
+} from '@contexts/iam/authentication/domain';
 import { SlugService } from '@shared/services/domain';
 
 export class RegisterUserUseCase {
@@ -9,13 +11,13 @@ export class RegisterUserUseCase {
     private readonly hashingService: HashingService,
     private readonly slugService: SlugService
   ) {}
-  async execute(data: RegisterUserDto): Promise<void> {
+  async execute(data: DataToRegister): Promise<void> {
     // Generate slug
     const nicknameSlug = await this.slugService.generateSlug(data.nickname);
     // Hashing password
     const hashedPassword = await this.hashingService.hash(data.password);
     // Save new user
-    return await this.userRepository.save({
+    return await this.userRepository.create({
       ...data,
       nickname: nicknameSlug,
       password: hashedPassword,

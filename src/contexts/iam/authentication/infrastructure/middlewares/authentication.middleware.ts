@@ -3,14 +3,14 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Instancies
 import { AuthDependencyFactory } from '@contexts/iam/authentication/infrastructure/dependencies';
 import { UserDependencyFactory } from '@contexts/users/infrastructure/dependencies';
-import { IUser } from '@contexts/users/infrastructure/datasources/aws/mongodb/models';
 import { ResponseFormat } from '@shared/utils';
+import { UserEntity } from '@src/contexts/users/domain';
 
 /* New property `user` to the Request */
 declare global {
   namespace Express {
     interface Request {
-      user?: IUser;
+      user?: UserEntity;
     }
   }
 }
@@ -49,7 +49,7 @@ export const authenticationMiddleware: RequestHandler = async (
         .json(ResponseFormat.error('Invalid or expired token'));
       return;
     }
-    req.user = user as IUser;
+    req.user = user;
   }
 
   next();
