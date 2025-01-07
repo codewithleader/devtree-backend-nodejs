@@ -4,4 +4,5 @@ export interface DataToUpdateUserProfile {
   bio: string;
   imageUrl?: string;
   imagePublicId?: string;
+  links?: string;
 }

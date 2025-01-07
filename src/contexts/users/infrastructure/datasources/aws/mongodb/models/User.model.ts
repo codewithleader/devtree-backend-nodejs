@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    links: {
+      type: String,
+      default: '[]',
+    },
   },
   { collection: 'users' }
 );

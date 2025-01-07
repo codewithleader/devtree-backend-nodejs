@@ -60,7 +60,7 @@ export class UserController {
     }
 
     const dataToUpdateUserProfile: DataToUpdateUserProfile = {
-      ...req.body, // nickname and bio HERE!
+      ...req.body, // nickname, bio and links HERE!
       id,
       imageUrl,
       imagePublicId,
