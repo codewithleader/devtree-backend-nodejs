@@ -11,7 +11,8 @@ interface UserEntityProps {
   links?: string;
 }
 
-interface DevTreeLink {
+interface SocialNetwork {
+  id: number;
   name: string;
   url: string;
   enabled: boolean;
@@ -26,7 +27,7 @@ export class UserEntity {
   public bio?: string;
   public imageUrl?: string;
   public imagePublicId?: string;
-  public links?: DevTreeLink[];
+  public links: SocialNetwork[];
 
   constructor({
     nickname,
