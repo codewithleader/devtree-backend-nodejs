@@ -14,9 +14,12 @@ export const handleValidatorErrorsMiddleware: RequestHandler = (
 
   if (!errors.isEmpty() || localErrors.length > 0) {
     res.status(StatusCodes.BAD_REQUEST).json(
-      ResponseFormat.error(ReasonPhrases.BAD_REQUEST, {
-        error: [...localErrors, ...errors.array()],
-      })
+      ResponseFormat.error(
+        `${ReasonPhrases.BAD_REQUEST}: Campos inválidos o incompletos`,
+        {
+          error: [...localErrors, ...errors.array()],
+        }
+      )
     );
     return;
   }

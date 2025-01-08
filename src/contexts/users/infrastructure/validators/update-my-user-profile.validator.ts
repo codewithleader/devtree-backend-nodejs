@@ -8,13 +8,13 @@ export const updateMyUserProfileValidatorRules = [
   // Invalid properties
   validateExtraFields(['bio', 'nickname', 'links'], ['file']),
   // Express Validator
-  body('bio')
-    .notEmpty()
-    .withMessage('BIO is required')
-    .trim()
-    .escape()
-    .isLength({ min: 2 })
-    .withMessage('BIO must be at least 2 characters long'),
+  // body('bio') // ! bio es REQUERIDA en el Frontend pero en el Backend es opcional. (para reutilizar el endpoint para guardar los links)
+  //   .notEmpty()
+  //   .withMessage('BIO is required')
+  //   .trim()
+  //   .escape()
+  //   .isLength({ min: 2 })
+  //   .withMessage('BIO must be at least 2 characters long'),
   body('nickname')
     .notEmpty()
     .withMessage('NICKNAME is required')

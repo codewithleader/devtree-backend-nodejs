@@ -16,7 +16,9 @@ export class LoginUserUseCase {
 
   async execute(data: DataToLogin): Promise<{ token: string }> {
     try {
-      const user = await this.userRepository.findByEmail(data.email);
+      const user = await this.userRepository.findByEmailWithPassword(
+        data.email
+      );
       if (!user) {
         throw new CustomError(
           `${ReasonPhrases.UNAUTHORIZED}: Invalid email or password`,

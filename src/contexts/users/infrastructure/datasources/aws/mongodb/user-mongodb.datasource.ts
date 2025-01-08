@@ -42,8 +42,8 @@ export class UserMongoDbDatasource implements UserDatasource {
     return new UserEntity(user);
   }
 
-  async findByEmail(email: string): Promise<UserEntity | null> {
-    const user = await User.findOne({ email }).select('email password');
+  async findByEmailWithPassword(email: string): Promise<UserEntity | null> {
+    const user = await User.findOne({ email }).select('+password');
     if (!user) return null;
     return new UserEntity(user);
   }

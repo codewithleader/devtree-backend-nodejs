@@ -10,6 +10,12 @@ interface UserEntityProps {
   imagePublicId?: string;
   links?: string;
 }
+
+interface DevTreeLink {
+  name: string;
+  url: string;
+  enabled: boolean;
+}
 export class UserEntity {
   public nickname: string;
   public name: string;
@@ -20,7 +26,7 @@ export class UserEntity {
   public bio?: string;
   public imageUrl?: string;
   public imagePublicId?: string;
-  public links?: string;
+  public links?: DevTreeLink[];
 
   constructor({
     nickname,
@@ -42,6 +48,6 @@ export class UserEntity {
     this.bio = bio;
     this.imageUrl = imageUrl;
     this.imagePublicId = imagePublicId;
-    this.links = links;
+    this.links = JSON.parse(links);
   }
 }
