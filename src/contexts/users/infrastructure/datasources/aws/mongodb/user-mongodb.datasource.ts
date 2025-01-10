@@ -48,6 +48,19 @@ export class UserMongoDbDatasource implements UserDatasource {
     return new UserEntity(user);
   }
 
+  async findByNickname(nickname: string): Promise<UserEntity> {
+    const user = await User.findOne({ nickname }).select(
+      '-email -password -_id'
+    );
+    if (!user) {
+      throw new CustomError(
+        `${ReasonPhrases.NOT_FOUND}: User with nickname: ${nickname} not found`,
+        StatusCodes.NOT_FOUND
+      );
+    }
+    return new UserEntity(user);
+  }
+
   async findAll(): Promise<UserEntity[]> {
     const users = await User.find();
     if (users.length === 0) return [];

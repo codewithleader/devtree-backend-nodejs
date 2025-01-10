@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import { authenticationMiddleware } from '@contexts/iam/authentication/infrastructure/middlewares';
 import { userController } from '@contexts/users/infrastructure/dependencies';
-import { updateMyUserProfileValidatorRules } from '@contexts/users/infrastructure/validators';
+import {
+  getUserByNicknameValidatorRules,
+  updateMyUserProfileValidatorRules,
+} from '@contexts/users/infrastructure/validators';
 import { mediaFilesFormidableMiddleware } from '@shared/middlewares';
 
 export class UserRouter {
@@ -9,6 +12,12 @@ export class UserRouter {
     const router = Router();
 
     router.get('/me', authenticationMiddleware, userController.getMyUser);
+
+    router.get(
+      '/nickname/:nickname',
+      getUserByNicknameValidatorRules,
+      userController.getUserByNickname
+    );
 
     router.patch(
       '/me/profile',

@@ -1,7 +1,10 @@
 import { UserMongoDbDatasource } from '@contexts/users/infrastructure/datasources';
 import { UserRepositoryImp } from '@contexts/users/infrastructure/repositories';
 import { UserController } from '@contexts/users/infrastructure/rest-api/controllers';
-import { UpdateMyUserProfileUseCase } from '@contexts/users/application';
+import {
+  GetUserByNicknameUseCase,
+  UpdateMyUserProfileUseCase,
+} from '@contexts/users/application';
 import { SharedDependencyFactory } from '@shared/dependencies';
 import { MediaDependencyFactory } from '@src/contexts/media/infrastructure/dependencies';
 
@@ -23,11 +26,13 @@ const updateMyUserProfile = new UpdateMyUserProfileUseCase(
   userRepository,
   slugService
 );
+const getUserByNicknameUseCase = new GetUserByNicknameUseCase(userRepository);
 
 const uploadImage = MediaDependencyFactory.getUploadImageUseCase();
 const deleteImage = MediaDependencyFactory.getDeleteImageUseCase();
 
 const userController = new UserController(
+  getUserByNicknameUseCase,
   updateMyUserProfile,
   uploadImage,
   deleteImage

@@ -5,7 +5,10 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { CustomError } from '@shared/errors/domain';
 import { ResponseFormat } from '@shared/utils';
 import { DataToUpdateUserProfile, UserEntity } from '@contexts/users/domain';
-import { UpdateMyUserProfileUseCase } from '@contexts/users/application';
+import {
+  GetUserByNicknameUseCase,
+  UpdateMyUserProfileUseCase,
+} from '@contexts/users/application';
 import {
   DeleteImageUseCase,
   UploadImageUseCase,
@@ -13,6 +16,7 @@ import {
 
 export class UserController {
   constructor(
+    private readonly getUserByNicknameUseCase: GetUserByNicknameUseCase,
     private readonly updateMyUserProfile: UpdateMyUserProfileUseCase,
     private readonly uploadImageUseCase: UploadImageUseCase,
     private readonly deleteImageUseCase: DeleteImageUseCase
@@ -38,6 +42,20 @@ export class UserController {
       .status(StatusCodes.OK)
       .json(ResponseFormat.success<{ user: UserEntity }>({ user: req.user }));
     return;
+  };
+
+  public getUserByNickname = (req: Request, res: Response) => {
+    const { nickname } = req.params;
+    this.getUserByNicknameUseCase
+      .execute(nickname)
+      .then((data) =>
+        res
+          .status(StatusCodes.OK)
+          .json(
+            ResponseFormat.success<{ user: UserEntity }>({ user: data }, 'OK')
+          )
+      )
+      .catch((error) => this.handleErrors(res, error));
   };
 
   public updateMyProfile = async (req: Request, res: Response) => {

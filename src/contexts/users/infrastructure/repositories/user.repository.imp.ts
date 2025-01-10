@@ -21,6 +21,10 @@ export class UserRepositoryImp implements UserRepository {
     return await this.datasource.findByEmailWithPassword(email);
   }
 
+  async findByNickname(nickname: string): Promise<UserEntity> {
+    return await this.datasource.findByNickname(nickname);
+  }
+
   async findAll(): Promise<UserEntity[]> {
     return await this.datasource.findAll();
   }
