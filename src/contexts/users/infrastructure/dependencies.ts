@@ -3,6 +3,7 @@ import { UserRepositoryImp } from '@contexts/users/infrastructure/repositories';
 import { UserController } from '@contexts/users/infrastructure/rest-api/controllers';
 import {
   GetUserByNicknameUseCase,
+  SearchNicknameUseCase,
   UpdateMyUserProfileUseCase,
 } from '@contexts/users/application';
 import { SharedDependencyFactory } from '@shared/dependencies';
@@ -31,11 +32,14 @@ const getUserByNicknameUseCase = new GetUserByNicknameUseCase(userRepository);
 const uploadImage = MediaDependencyFactory.getUploadImageUseCase();
 const deleteImage = MediaDependencyFactory.getDeleteImageUseCase();
 
+const searchNicknameUseCase = new SearchNicknameUseCase(userRepository);
+
 const userController = new UserController(
   getUserByNicknameUseCase,
   updateMyUserProfile,
   uploadImage,
-  deleteImage
+  deleteImage,
+  searchNicknameUseCase
 );
 
 export { UserDependencyFactory, userController };

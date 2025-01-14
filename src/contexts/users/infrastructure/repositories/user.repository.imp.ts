@@ -8,7 +8,6 @@ import { DataToRegister } from '@contexts/iam/authentication/domain';
 
 export class UserRepositoryImp implements UserRepository {
   constructor(private readonly datasource: UserDatasource) {}
-
   async create(data: DataToRegister): Promise<void> {
     return await this.datasource.create(data);
   }
@@ -31,5 +30,9 @@ export class UserRepositoryImp implements UserRepository {
 
   async updateUserProfile(data: DataToUpdateUserProfile): Promise<UserEntity> {
     return await this.datasource.updateUserProfile(data);
+  }
+
+  async searchNickname(nickname: string): Promise<string> {
+    return await this.datasource.searchNickname(nickname);
   }
 }

@@ -7,6 +7,7 @@ import { ResponseFormat } from '@shared/utils';
 import { DataToUpdateUserProfile, UserEntity } from '@contexts/users/domain';
 import {
   GetUserByNicknameUseCase,
+  SearchNicknameUseCase,
   UpdateMyUserProfileUseCase,
 } from '@contexts/users/application';
 import {
@@ -19,7 +20,8 @@ export class UserController {
     private readonly getUserByNicknameUseCase: GetUserByNicknameUseCase,
     private readonly updateMyUserProfile: UpdateMyUserProfileUseCase,
     private readonly uploadImageUseCase: UploadImageUseCase,
-    private readonly deleteImageUseCase: DeleteImageUseCase
+    private readonly deleteImageUseCase: DeleteImageUseCase,
+    private readonly searchNicknameUseCase: SearchNicknameUseCase
   ) {}
 
   private handleErrors = (res: Response, error: unknown) => {
@@ -95,6 +97,18 @@ export class UserController {
               'User profile updated successfully'
             )
           )
+      )
+      .catch((error) => this.handleErrors(res, error));
+  };
+
+  public searchNickname = (req: Request, res: Response) => {
+    const { nickname } = req.body;
+    this.searchNicknameUseCase
+      .execute(nickname)
+      .then((message) =>
+        res
+          .status(StatusCodes.OK)
+          .json(ResponseFormat.success<null>(null, message))
       )
       .catch((error) => this.handleErrors(res, error));
   };

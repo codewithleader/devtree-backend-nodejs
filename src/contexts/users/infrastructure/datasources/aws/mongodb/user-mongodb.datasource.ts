@@ -101,4 +101,15 @@ export class UserMongoDbDatasource implements UserDatasource {
       );
     }
   }
+
+  async searchNickname(nickname: string): Promise<string> {
+    const user = await User.findOne({ nickname });
+    if (user) {
+      throw new CustomError(
+        `${ReasonPhrases.CONFLICT}: Nickname no disponible.`,
+        StatusCodes.CONFLICT
+      );
+    }
+    return 'Nickname disponible.';
+  }
 }

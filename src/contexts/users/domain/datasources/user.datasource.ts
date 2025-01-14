@@ -13,4 +13,5 @@ export abstract class UserDatasource {
   abstract updateUserProfile(
     data: DataToUpdateUserProfile
   ): Promise<UserEntity>;
+  abstract searchNickname(nickname: string): Promise<string>;
 }

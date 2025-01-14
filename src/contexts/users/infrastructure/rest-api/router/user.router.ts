@@ -3,6 +3,7 @@ import { authenticationMiddleware } from '@contexts/iam/authentication/infrastru
 import { userController } from '@contexts/users/infrastructure/dependencies';
 import {
   getUserByNicknameValidatorRules,
+  searchNicknameValidatorRules,
   updateMyUserProfileValidatorRules,
 } from '@contexts/users/infrastructure/validators';
 import { mediaFilesFormidableMiddleware } from '@shared/middlewares';
@@ -25,6 +26,12 @@ export class UserRouter {
       mediaFilesFormidableMiddleware, // Este va antes de las validaciones para que se pueda acceder a req.files y normalizar los campos del body de nickname: ['John'] a nickname: 'John' (formdata)
       updateMyUserProfileValidatorRules,
       userController.updateMyProfile
+    );
+
+    router.post(
+      '/search',
+      searchNicknameValidatorRules,
+      userController.searchNickname
     );
 
     return router;
