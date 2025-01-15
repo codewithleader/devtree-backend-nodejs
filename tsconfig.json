@@ -20,8 +20,7 @@
     "resolveJsonModule": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["node"]
+    "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
   "exclude": ["node_modules", "dist"]
 }
