@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { ConnectOptions } from 'mongoose';
 import colors from 'colors';
 
 interface ConnectionOptions {
@@ -18,7 +18,9 @@ export class MongoDatabase {
     }
 
     try {
-      const { connection } = await mongoose.connect(mongoUrl, { dbName });
+      const { connection } = await mongoose.connect(mongoUrl, {
+        dbName,
+      } as ConnectOptions);
       this.isConnected = true;
 
       const url = `${connection.host}:${connection.port}`;
