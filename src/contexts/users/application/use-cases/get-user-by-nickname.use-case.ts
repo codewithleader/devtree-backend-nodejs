@@ -14,7 +14,7 @@ export class GetUserByNicknameUseCase {
       if (error instanceof CustomError) {
         throw new CustomError(error.message, error.statusCode);
       }
-      console.log(error);
+      // console.log(error);
       throw new CustomError(
         ReasonPhrases.INTERNAL_SERVER_ERROR,
         StatusCodes.INTERNAL_SERVER_ERROR
