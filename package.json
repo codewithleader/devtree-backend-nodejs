@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "dist/main.js",
   "engines": {
-    "node": "20.x"
+    "node": ">=18.x",
+    "npm": ">=9.x"
   },
   "scripts": {
     "start": "node dist/main.js",
@@ -30,9 +31,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
     "rimraf": "^6.0.1",
-    "slug": "^10.0.0"
-  },
-  "devDependencies": {
+    "slug": "^10.0.0",
     "@eslint/js": "^9.18.0",
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
@@ -40,6 +39,7 @@
     "@types/express": "^5.0.0",
     "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.7",
     "@types/slug": "^5.0.9",
     "eslint": "^9.18.0",
     "globals": "^15.14.0",
@@ -48,5 +48,6 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
-  }
+  },
+  "devDependencies": {}
 }
