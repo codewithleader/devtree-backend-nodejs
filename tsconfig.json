@@ -2,9 +2,9 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "strict": false,
     "sourceMap": true,
@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "./src/@types"]
+    "types": ["node"]
   },
   "exclude": ["node_modules", "dist"]
 }

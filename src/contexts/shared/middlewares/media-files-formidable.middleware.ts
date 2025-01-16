@@ -1,9 +1,18 @@
 import { RequestHandler } from 'express';
-import formidable from 'formidable';
+import formidable, { Files } from 'formidable';
 import { StatusCodes } from 'http-status-codes';
 import colors from 'colors';
 //
 import { ResponseFormat } from '@shared/utils';
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    interface Request {
+      files?: Files;
+    }
+  }
+}
 
 export const mediaFilesFormidableMiddleware: RequestHandler = (
   req,

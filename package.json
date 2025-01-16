@@ -2,19 +2,19 @@
   "name": "devtree",
   "version": "1.0.0",
   "description": "Primer Proyecto con Express y Typescript. Curso FullStack JuanPa",
+  "author": "CODEWITHLEADER",
+  "license": "MIT",
   "main": "dist/main.js",
   "engines": {
     "node": "20.x"
   },
   "scripts": {
-    "start": "npm run build && node dist/main.js",
+    "start": "node dist/main.js",
     "build": "rimraf dist && tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
     "dev": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts",
     "dev:api": "tsnd -r tsconfig-paths/register --respawn --clear src/main.ts --api",
     "lint": "eslint ."
   },
-  "author": "CODEWITHLEADER",
-  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",
@@ -28,26 +28,26 @@
     "http-status-codes": "^2.3.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.3",
+    "mongoose": "^8.9.5",
     "rimraf": "^6.0.1",
     "slug": "^10.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.18.0",
     "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.7",
-    "@types/node": "^22.10.3",
+    "@types/node": "^22.10.7",
     "@types/slug": "^5.0.9",
-    "eslint": "^9.17.0",
+    "eslint": "^9.18.0",
     "globals": "^15.14.0",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.19.0"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
   }
 }

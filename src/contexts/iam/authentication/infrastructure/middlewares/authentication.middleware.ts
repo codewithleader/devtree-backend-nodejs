@@ -4,6 +4,16 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { AuthDependencyFactory } from '@contexts/iam/authentication/infrastructure/dependencies';
 import { UserDependencyFactory } from '@contexts/users/infrastructure/dependencies';
 import { ResponseFormat } from '@shared/utils';
+import { UserEntity } from '@src/contexts/users/domain';
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    interface Request {
+      user?: UserEntity;
+    }
+  }
+}
 
 export const authenticationMiddleware: RequestHandler = async (
   req,
