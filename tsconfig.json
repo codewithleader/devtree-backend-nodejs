@@ -1,5 +1,15 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "strict": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "declaration": true,
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"],
@@ -7,17 +17,9 @@
       "@contexts/*": ["src/contexts/*"],
       "@shared/*": ["src/contexts/shared/*"]
     },
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "lib": ["ESNext", "DOM"],
-    "target": "ESNext",
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
-    "strict": false,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "declaration": true
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
