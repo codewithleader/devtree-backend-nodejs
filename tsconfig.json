@@ -19,8 +19,7 @@
     },
     "resolveJsonModule": true,
     "removeComments": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["node"]
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "dist"]
 }
