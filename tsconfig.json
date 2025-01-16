@@ -22,5 +22,6 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["node"]
   },
+  "include": ["src/**/*", "node_modules/@types/node/index.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
