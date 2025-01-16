@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@app/*": ["src/app/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@shared/*": ["src/contexts/shared/*"]
+    },
     "outDir": "./dist",
     "rootDir": "./src",
     "lib": ["ESNext", "DOM"],
@@ -9,18 +16,7 @@
     "strict": false,
     "sourceMap": true,
     "esModuleInterop": true,
-    "declaration": true,
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": ["src/*"],
-      "@app/*": ["src/app/*"],
-      "@contexts/*": ["src/contexts/*"],
-      "@shared/*": ["src/contexts/shared/*"]
-    },
-    "resolveJsonModule": true,
-    "removeComments": true,
-    "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/@types/node"]
+    "declaration": true
   },
   "include": ["src/**/*.ts"]
 }
